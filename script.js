@@ -88,10 +88,49 @@ function copyAndReview(id) {
 
     const text = document.getElementById(id).innerText;
 
-    navigator.clipboard.writeText(text).then(() => {
+    if (navigator.clipboard && window.isSecureContext) {
+
+        navigator.clipboard.writeText(text)
+            .then(openGoogleReview)
+            .catch(fallbackCopy);
+
+    } else {
+
+        fallbackCopy();
+
+    }
+
+    function fallbackCopy() {
+
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+
+        document.body.appendChild(textArea);
+
+        textArea.focus();
+        textArea.select();
+
+        try {
+
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            openGoogleReview();
+
+        } catch (err) {
+
+            document.body.removeChild(textArea);
+            alert("Please copy the review manually.");
+
+        }
+
+    }
+
+    function openGoogleReview() {
 
         const toast = document.getElementById("toast");
-
         toast.style.display = "block";
 
         setTimeout(() => {
@@ -101,10 +140,6 @@ function copyAndReview(id) {
 
         }, 1000);
 
-    }).catch(() => {
-
-        alert("Unable to copy the review.");
-
-    });
+    }
 
 }
