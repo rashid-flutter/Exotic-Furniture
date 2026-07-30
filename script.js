@@ -143,3 +143,28 @@ function copyAndReview(id) {
     }
 
 }
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function () {
+
+    const keyword = this.value.toLowerCase().trim();
+
+    const cards = document.querySelectorAll(".review-card");
+
+    cards.forEach(card => {
+
+        const reviewText = card
+            .querySelector(".review-text")
+            .innerText
+            .toLowerCase();
+
+        if (reviewText.includes(keyword)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+});
