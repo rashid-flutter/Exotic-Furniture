@@ -72,9 +72,60 @@
     alt="Premium Furniture Showroom in Palakkad"
     loading="lazy">
 
+    <button class="chat-toggle" id="chatToggle" aria-label="Open chat">
+        <div id="fabLottie" class="fab-lottie" aria-hidden="true"></div>
+        <span class="chat-toggle-icon" style="display:none">💬</span>
+        <span class="chat-toggle-label">Chat with Rashi AI</span>
+    </button>
+
     <button class="start-btn-fixed" onclick="goToReviews()">
     ⭐ Choose Your Review
 </button>
+
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-sheet" id="chatSheet">
+            <div class="chat-sheet-header">
+                <div class="chat-header-left">
+                    <div id="headerLottie" class="header-lottie" aria-hidden="true"></div>
+                    <div>
+                        <p class="chat-widget-title">Rashi AI</p>
+                        <p class="chat-widget-status">Online • Furniture Assistant</p>
+                    </div>
+                </div>
+                <button id="chatClose" class="chat-sheet-close" aria-label="Close chat">×</button>
+            </div>
+
+            <div class="chat-sheet-body">
+                <div class="chat-messages" id="widgetMessages">
+                    <div class="message bot">
+                        <div class="message-icon" id="initialBotIcon" aria-hidden="true"></div>
+                        <div class="message-text">👋 Hi! I’m Rashi AI. Ask me anything about our furniture, delivery, or showroom.</div>
+                        <div class="message-meta">Now</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-actions" id="widgetActionsPrimary">
+                <button type="button" class="quick-action">What services do you provide?</button>
+                <button type="button" class="quick-action">How can I contact you?</button>
+                <button type="button" class="quick-action">Showroom hours</button>
+                <button type="button" class="quick-action">Delivery details</button>
+            </div>
+
+            <div class="widget-actions widget-actions-secondary" id="widgetActionsSecondary" aria-hidden="true">
+                <button type="button" class="quick-action">Pricing & Offers</button>
+                <button type="button" class="quick-action">Custom Orders</button>
+                <button type="button" class="quick-action">Warranty Info</button>
+                <button type="button" class="quick-action">Track my order</button>
+            </div>
+
+            <form id="widgetChatForm" class="widget-chat-form">
+                <input id="widgetChatInput" class="widget-chat-input" type="text" placeholder="Ask Rashi anything..." autocomplete="off" required>
+                <button type="submit" class="widget-send-btn" aria-label="Send message">➤</button>
+            </form>
+            <div class="widget-status" id="widgetStatus"></div>
+        </div>
+    </div>
 </div>
 
 <footer class="footer">
@@ -82,13 +133,13 @@
 </footer>
 
 <script>
-document.getElementById("year").textContent =
-new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
 
 function goToReviews(){
-    window.location.href="reviews.html";
+    window.location.href = "reviews.html";
 }
 </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js" defer></script>
+<script src="widget-chat.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+{
+  "name": "exotic-furniture-chat",
+  "version": "1.0.0",
+  "description": "Static site with a local chat backend for Exotic Furniture Palakkad.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

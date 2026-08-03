@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat with Rashi AI | Exotic Furniture Palakkad</title>
+<meta name="description" content="Chat with Rashi AI for furniture, delivery, showroom, and product help at Exotic Furniture Palakkad.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-shell light-shell">
+    <div class="chat-card light-card">
+        <header class="chat-header light-header">
+            <div class="chat-header-left">
+                <div class="chat-avatar light-avatar">AI</div>
+                <div>
+                    <p class="chat-brand">Rashi AI</p>
+                    <p class="chat-subtitle">Portfolio Assistant</p>
+                </div>
+            </div>
+            <button class="chat-close light-close" onclick="window.location.href='index.html'" aria-label="Close chat">×</button>
+        </header>
+
+        <div class="chat-status-banner light-status-banner">
+            <span class="status-dot online"></span>
+            <div>
+                <p class="status-title">Online</p>
+                <p class="status-body">Ask about furniture, delivery, showroom hours, and more.</p>
+            </div>
+        </div>
+
+        <div class="quick-actions" id="quickActions">
+            <button type="button" class="quick-action">What services do you provide?</button>
+            <button type="button" class="quick-action">How can I contact you?</button>
+            <button type="button" class="quick-action">Tell me about your latest product</button>
+            <button type="button" class="quick-action">Show me your furniture collection</button>
+        </div>
+
+        <div class="chat-window light-chat-window">
+            <div id="messages" class="messages">
+                <div class="message bot light-bot-message">
+                    <div class="message-text">👋 Hi! I’m Rashi, your AI assistant. Ask me anything about our furniture, delivery, or showroom.</div>
+                    <div class="message-meta">20:05</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="chatForm" class="chat-form light-chat-form">
+            <input id="chatInput" class="chat-input" type="text" placeholder="Ask Rashi anything..." autocomplete="off" required>
+            <button type="submit" class="chat-send-btn" aria-label="Send message">➤</button>
+        </form>
+
+        <div id="chatStatus" class="chat-status"></div>
+    </div>
+</div>
+
+<footer class="footer light-footer">
+    © <span id="year"></span> RASHID™. All Rights Reserved.
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+<script src="chat.js" defer></script>
+</body>
+</html>
