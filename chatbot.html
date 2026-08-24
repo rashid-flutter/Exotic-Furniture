@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Rashi AI | Exotic Furniture Palakkad</title>
+
+    <link
+        rel="stylesheet"
+        href="chatbot.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         RASHI AI TOP HEADER
+         ===================================== -->
+
+    <!-- <header class="rashi-top-header">
+
+        <div class="rashi-header-left">
+
+            <div class="rashi-logo">
+                R
+            </div>
+
+
+            <div class="rashi-header-text">
+
+                <h1>
+                    Rashi AI
+                </h1>
+
+                <p>
+                    Your Furniture Review Assistant
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="rashi-close-btn"
+            aria-label="Close Rashi AI"
+            onclick="closeChatbot()"
+        >
+            ×
+        </button>
+
+    </header> -->
+
+
+    <!-- =====================================
+         CHATBOT CONTENT
+         ===================================== -->
+
+    <div class="chatbot-container">
+
+
+        <!-- =================================
+             CHAT AREA
+             ================================= -->
+
+        <div
+            id="chatMessages"
+            class="chat-messages"
+        ></div>
+
+
+        <!-- =================================
+             QUICK QUESTIONS
+             ================================= -->
+
+       <!-- =================================
+     QUICK REVIEW SUGGESTIONS
+     ================================= -->
+
+<div class="quick-actions">
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'I purchased furniture from Exotic Furniture Palakkad and I am happy with my purchase.'
+        )"
+    >
+        🛋️ My purchase
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'The furniture quality was excellent and the design was beautiful.'
+        )"
+    >
+        ⭐ Product quality
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'The staff were friendly, helpful and professional.'
+        )"
+    >
+        👨‍💼 Helpful staff
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'The showroom had a good collection of furniture and a pleasant atmosphere.'
+        )"
+    >
+        🏬 Showroom
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'I found the furniture reasonably priced and the value for money was good.'
+        )"
+    >
+        💰 Value for money
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'The delivery and service were smooth and satisfactory.'
+        )"
+    >
+        🚚 Delivery & service
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'The overall shopping experience at Exotic Furniture Palakkad was excellent.'
+        )"
+    >
+        ❤️ Overall experience
+    </button>
+
+
+    <button
+        type="button"
+        onclick="quickMessage(
+            'I would recommend Exotic Furniture Palakkad to others looking for quality furniture.'
+        )"
+    >
+        👍 Recommend
+    </button>
+
+</div>        <!-- =================================
+             INPUT
+             ================================= -->
+
+        <div class="chat-input-area">
+
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Tell Rashi AI about your experience..."
+                autocomplete="off"
+            >
+
+
+            <button
+                type="button"
+                id="sendButton"
+            >
+                Send
+            </button>
+
+
+        </div>
+
+
+        <!-- =================================
+             FOOTER
+             ================================= -->
+
+        <div class="chat-footer">
+
+            <span>
+                Powered by Rashi AI
+            </span>
+
+            <span>
+                Exotic Furniture Palakkad
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         CHAT JAVASCRIPT
+         ===================================== -->
+
+    <script src="chat.js"></script>
+
+
+    <script>
+
+
+        // =====================================
+        // QUICK MESSAGE
+        // =====================================
+
+        function quickMessage(message) {
+
+            const input =
+                document.getElementById("chatInput");
+
+
+            if (!input) return;
+
+
+            input.value = message;
+
+            input.focus();
+
+        }
+
+
+        // =====================================
+        // CLOSE RASHI AI
+        // =====================================
+
+        function closeChatbot() {
+
+            /*
+             * chatbot.html is loaded inside
+             * the Rashi AI iframe.
+             *
+             * Send close request to parent.
+             */
+
+            if (window.parent !== window) {
+
+                window.parent.postMessage(
+                    {
+                        type: "closeRashiAI"
+                    },
+                    "*"
+                );
+
+            }
+
+        }
+
+
+        // =====================================
+        // FOCUS INPUT
+        // =====================================
+
+        window.addEventListener(
+            "message",
+            function (event) {
+
+                if (
+                    event.data &&
+                    event.data.type === "focusChatInput"
+                ) {
+
+                    const input =
+                        document.getElementById(
+                            "chatInput"
+                        );
+
+
+                    if (input) {
+
+                        input.focus();
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

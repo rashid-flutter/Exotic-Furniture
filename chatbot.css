@@ -1,0 +1,1378 @@
+/* =========================================================
+   RASHI AI - EXOTIC FURNITURE PALAKKAD
+   FULL PAGE CHATBOT
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #ffffff;
+    color: #171717;
+}
+
+
+/* =========================================================
+   FLOATING RASHI AI BUTTON
+   ========================================================= */
+
+.rashi-ai-button {
+
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 150px;
+    height: 56px;
+
+    border: none;
+    border-radius: 30px;
+
+    background: #171717;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+
+    z-index: 999998;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.rashi-ai-button:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.35);
+}
+
+
+.rashi-ai-button.active {
+
+    transform: scale(0.96);
+}
+
+
+/* =========================================================
+   RASHI AI BUTTON ICON
+   ========================================================= */
+
+.rashi-ai-icon {
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #171717;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+
+.rashi-ai-label {
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   FULL PAGE RASHI AI WINDOW
+   ========================================================= */
+
+.rashi-ai-window {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+
+    margin: 0;
+    padding: 0;
+
+    background: #ffffff;
+
+    border-radius: 0;
+
+    overflow: hidden;
+
+    z-index: 999999;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(20px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+}
+
+
+/* OPEN */
+
+.rashi-ai-window.active {
+
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   FULL PAGE IFRAME
+   ========================================================= */
+
+.rashi-ai-iframe {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+
+    display: block;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   WEBSITE LOCK WHEN AI IS OPEN
+   ========================================================= */
+
+body.rashi-ai-open {
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   RASHI AI HEADER
+   ========================================================= */
+
+.rashi-ai-header {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 100px;
+
+    padding: 18px 24px;
+
+    background:
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(255, 255, 255, 0.12),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0f0f0f,
+            #202020
+        );
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.18);
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   HEADER DECORATION
+   ========================================================= */
+
+.rashi-ai-header::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: -80px;
+    bottom: -140px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 0 0 25px
+        rgba(255, 255, 255, 0.025),
+
+        0 0 0 50px
+        rgba(255, 255, 255, 0.015);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.rashi-ai-profile {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.rashi-ai-avatar {
+
+    width: 56px;
+    height: 56px;
+
+    flex-shrink: 0;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #dedede
+        );
+
+    color: #111111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+    font-weight: 800;
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.30);
+
+    position: relative;
+}
+
+
+/* =========================================================
+   AVATAR SPARKLE
+   ========================================================= */
+
+.rashi-ai-avatar::after {
+
+    content: "✦";
+
+    position: absolute;
+
+    top: -7px;
+    right: -7px;
+
+    width: 21px;
+    height: 21px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #171717;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   HEADER TEXT
+   ========================================================= */
+
+.rashi-ai-profile h3 {
+
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 20px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+}
+
+
+.rashi-ai-profile span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 6px;
+
+    color: #c9c9c9;
+
+    font-size: 11px;
+
+    letter-spacing: 0.15px;
+}
+
+
+/* ONLINE DOT */
+
+.rashi-ai-profile span::before {
+
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #55d98a;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(85, 217, 138, 0.12);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.rashi-ai-close {
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.14);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    color: #ffffff;
+
+    font-size: 27px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    z-index: 20;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.rashi-ai-close:hover {
+
+    background:
+        rgba(255, 255, 255, 0.16);
+
+    transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   CHATBOT HTML PAGE
+   ========================================================= */
+
+.chatbot-container {
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CHAT MESSAGES
+   ========================================================= */
+
+.chat-messages {
+
+    flex: 1;
+
+    min-height: 0;
+
+    padding: 28px;
+
+    overflow-y: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    background: #f7f7f5;
+
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.chat-messages::-webkit-scrollbar {
+
+    width: 6px;
+}
+
+
+.chat-messages::-webkit-scrollbar-thumb {
+
+    background: #cfcfcf;
+
+    border-radius: 10px;
+}
+
+
+.chat-messages::-webkit-scrollbar-track {
+
+    background: transparent;
+}
+
+
+/* =========================================================
+   CHAT MESSAGE
+   ========================================================= */
+
+.chat-message {
+
+    max-width: 720px;
+
+    padding: 13px 16px;
+
+    border-radius: 16px;
+
+    font-size: 14px;
+
+    line-height: 1.55;
+
+    white-space: pre-line;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* USER */
+
+.user-message {
+
+    align-self: flex-end;
+
+    background: #171717;
+
+    color: #ffffff;
+
+    border-bottom-right-radius: 5px;
+}
+
+
+/* AI */
+
+.ai-message {
+
+    align-self: flex-start;
+
+    background: #ffffff;
+
+    color: #222222;
+
+    border:
+        1px solid #e5e5e5;
+
+    border-bottom-left-radius: 5px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.035);
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions {
+
+    flex-shrink: 0;
+
+    padding: 12px 18px;
+
+    display: flex;
+
+    gap: 8px;
+
+    overflow-x: auto;
+
+    background: #ffffff;
+
+    border-top:
+        1px solid #eeeeee;
+
+    scrollbar-width: none;
+}
+
+
+.quick-actions::-webkit-scrollbar {
+    display: none;
+}
+
+
+.quick-actions button {
+
+    flex-shrink: 0;
+
+    padding: 9px 13px;
+
+    border:
+        1px solid #dddddd;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    color: #333333;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.quick-actions button:hover {
+
+    background: #171717;
+
+    color: #ffffff;
+
+    border-color: #171717;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   INPUT AREA
+   ========================================================= */
+
+.chat-input-area {
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 14px 18px;
+
+    background: #ffffff;
+
+    border-top:
+        1px solid #eeeeee;
+}
+
+
+/* INPUT */
+
+.chat-input-area input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 48px;
+
+    padding: 0 17px;
+
+    border:
+        1px solid #dddddd;
+
+    border-radius: 24px;
+
+    outline: none;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 14px;
+
+    color: #222222;
+
+    background: #fafafa;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.chat-input-area input:focus {
+
+    border-color: #171717;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(23, 23, 23, 0.06);
+}
+
+
+/* SEND */
+
+.chat-input-area button {
+
+    flex-shrink: 0;
+
+    height: 48px;
+
+    padding: 0 21px;
+
+    border: none;
+
+    border-radius: 24px;
+
+    background: #171717;
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.chat-input-area button:hover {
+
+    transform: translateY(-1px);
+}
+
+
+.chat-input-area button:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.chat-footer {
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 7px 18px;
+
+    background: #ffffff;
+
+    color: #999999;
+
+    font-size: 9px;
+
+    border-top:
+        1px solid #eeeeee;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rashi-ai-button {
+
+        right: 16px;
+        bottom: 16px;
+
+        width: 140px;
+        height: 52px;
+
+        font-size: 14px;
+    }
+
+
+    .rashi-ai-window {
+
+        inset: 0;
+
+        width: 100vw;
+        height: 100dvh;
+
+        border-radius: 0;
+    }
+
+
+    .rashi-ai-header {
+
+        min-height: 88px;
+
+        padding:
+            16px 17px;
+    }
+
+
+    .rashi-ai-avatar {
+
+        width: 48px;
+        height: 48px;
+
+        border-radius: 15px;
+
+        font-size: 21px;
+    }
+
+
+    .rashi-ai-profile {
+
+        gap: 12px;
+    }
+
+
+    .rashi-ai-profile h3 {
+
+        font-size: 17px;
+    }
+
+
+    .rashi-ai-profile span {
+
+        font-size: 10px;
+
+        margin-top: 5px;
+    }
+
+
+    .rashi-ai-close {
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 24px;
+    }
+
+
+    .chat-messages {
+
+        padding:
+            18px 13px;
+    }
+
+
+    .chat-message {
+
+        max-width: 88%;
+
+        font-size: 13px;
+    }
+
+
+    .quick-actions {
+
+        padding:
+            10px;
+    }
+
+
+    .quick-actions button {
+
+        font-size: 11px;
+
+        padding:
+            8px 11px;
+    }
+
+
+    .chat-input-area {
+
+        padding:
+            10px;
+    }
+
+
+    .chat-input-area input {
+
+        height: 44px;
+
+        font-size: 13px;
+    }
+
+
+    .chat-input-area button {
+
+        height: 44px;
+
+        padding:
+            0 15px;
+
+        font-size: 13px;
+    }
+
+
+    .chat-footer {
+
+        padding:
+            6px 10px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .rashi-ai-button {
+
+        right: 12px;
+        bottom: 12px;
+
+        width: 125px;
+        height: 48px;
+    }
+
+
+    .rashi-ai-header {
+
+        min-height: 82px;
+
+        padding:
+            14px;
+    }
+
+
+    .rashi-ai-avatar {
+
+        width: 44px;
+        height: 44px;
+    }
+
+
+    .rashi-ai-profile h3 {
+
+        font-size: 16px;
+    }
+
+
+    .chat-input-area button {
+
+        padding:
+            0 12px;
+    }
+
+
+    .chat-footer span:last-child {
+
+        display: none;
+    }
+    /* =========================================================
+   RASHI AI - TOP HEADER
+   ========================================================= */
+
+.rashi-top-header {
+    width: 100%;
+    min-height: 96px;
+
+    padding: 18px 26px;
+
+    background:
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(255, 255, 255, 0.12),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0d0d0d 0%,
+            #202020 100%
+        );
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-shrink: 0;
+
+    position: relative;
+    z-index: 9999;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.20);
+}
+
+
+/* Decorative circle */
+
+.rashi-top-header::before {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: -80px;
+    bottom: -145px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 0 0 25px rgba(255, 255, 255, 0.025),
+        0 0 0 50px rgba(255, 255, 255, 0.015);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADER LEFT
+   ========================================================= */
+
+.rashi-header-left {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    min-width: 0;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   RASHI LOGO
+   ========================================================= */
+
+.rashi-logo {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #dddddd
+        );
+
+    color: #111111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.30);
+
+    position: relative;
+}
+
+
+/* Small AI sparkle */
+
+.rashi-logo::after {
+    content: "✦";
+
+    position: absolute;
+
+    top: -7px;
+    right: -7px;
+
+    width: 21px;
+    height: 21px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #171717;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   HEADER TEXT
+   ========================================================= */
+
+.rashi-header-text {
+    min-width: 0;
+}
+
+.rashi-header-text h1 {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 21px;
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+}
+
+.rashi-header-text p {
+    margin: 7px 0 0;
+
+    color: #c9c9c9;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 0.15px;
+}
+
+
+/* =========================================================
+   ONLINE INDICATOR
+   ========================================================= */
+
+.rashi-header-text p::before {
+    content: "";
+
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: #55d98a;
+
+    box-shadow:
+        0 0 0 3px rgba(85, 217, 138, 0.12);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.rashi-close-btn {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    margin-left: 15px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.14);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    color: #ffffff;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    z-index: 20;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.rashi-close-btn:hover {
+    background:
+        rgba(255, 255, 255, 0.17);
+
+    transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   CHATBOT CONTENT HEIGHT
+   ========================================================= */
+
+.chatbot-container {
+    width: 100%;
+
+    height: calc(100vh - 96px);
+    height: calc(100dvh - 96px);
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   MOBILE HEADER
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rashi-top-header {
+        min-height: 86px;
+
+        padding:
+            15px 17px;
+    }
+
+    .rashi-header-left {
+        gap: 12px;
+    }
+
+    .rashi-logo {
+        width: 50px;
+        height: 50px;
+
+        border-radius: 15px;
+
+        font-size: 22px;
+    }
+
+    .rashi-header-text h1 {
+        font-size: 18px;
+    }
+
+    .rashi-header-text p {
+        margin-top: 5px;
+
+        font-size: 10px;
+    }
+
+    .rashi-close-btn {
+        width: 39px;
+        height: 39px;
+
+        font-size: 25px;
+    }
+
+    .chatbot-container {
+        height: calc(100vh - 86px);
+        height: calc(100dvh - 86px);
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .rashi-top-header {
+        min-height: 80px;
+
+        padding: 13px;
+    }
+
+    .rashi-logo {
+        width: 46px;
+        height: 46px;
+
+        font-size: 20px;
+    }
+
+    .rashi-header-text h1 {
+        font-size: 17px;
+    }
+
+    .rashi-header-text p {
+        font-size: 9px;
+    }
+
+    .rashi-close-btn {
+        width: 36px;
+        height: 36px;
+
+        font-size: 23px;
+    }
+
+    .chatbot-container {
+        height: calc(100vh - 80px);
+        height: calc(100dvh - 80px);
+    }
+}
+
+}

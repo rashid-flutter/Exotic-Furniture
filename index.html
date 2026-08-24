@@ -1,94 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Best Furniture Shop in Palakkad | Exotic Furniture Palakkad</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<meta name="description" content="Exotic Furniture Palakkad - Best Furniture Shop in Palakkad. Premium sofas, wooden sofas, Orchid sofas, cots, mattresses, wardrobes, dining tables, office furniture, office chairs and bedroom sets with excellent customer service.">
+    <title>
+        Best Furniture Shop in Palakkad | Exotic Furniture Palakkad
+    </title>
 
-<meta name="keywords" content="Best Furniture Shop in Palakkad, Furniture Showroom Palakkad, Sofa Shop Palakkad, Wooden Sofa, Orchid Sofa, Cot, Mattress, Wardrobe, Dining Table, Office Chair, Office Table, Bedroom Set, Luxury Furniture, Furniture Kerala">
+    <meta
+        name="description"
+        content="Exotic Furniture Palakkad - Best Furniture Shop in Palakkad. Premium sofas, wooden sofas, Orchid sofas, cots, mattresses, wardrobes, dining tables, office furniture, office chairs and bedroom sets with excellent customer service."
+    >
 
-<meta name="author" content="RASHID-V">
+    <meta
+        name="keywords"
+        content="Best Furniture Shop in Palakkad, Furniture Showroom Palakkad, Sofa Shop Palakkad, Wooden Sofa, Orchid Sofa, Cot, Mattress, Wardrobe, Dining Table, Office Chair, Office Table, Bedroom Set, Luxury Furniture, Furniture Kerala"
+    >
 
-<meta name="robots" content="index, follow">
+    <meta
+        name="author"
+        content="RASHID-V"
+    >
 
-<meta property="og:title" content="Exotic Furniture Palakkad | Best Furniture Shop in Palakkad">
-<meta property="og:description" content="Premium furniture collections in Palakkad. Sofas, Cots, Mattresses, Wardrobes, Dining Tables, Office Furniture and more.">
-<meta property="og:image" content="assets/logo.jpeg">
-<meta property="og:type" content="website">
+    <meta
+        name="robots"
+        content="index, follow"
+    >
 
-<meta name="theme-color" content="#16a34a">
+    <meta
+        property="og:title"
+        content="Exotic Furniture Palakkad | Best Furniture Shop in Palakkad"
+    >
 
-<link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+    <meta
+        property="og:description"
+        content="Premium furniture collections in Palakkad. Sofas, Cots, Mattresses, Wardrobes, Dining Tables, Office Furniture and more."
+    >
 
-<link rel="stylesheet" href="style.css">
+    <meta
+        property="og:image"
+        content="assets/logo.jpeg"
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        name="theme-color"
+        content="#16a34a"
+    >
+
+    <link
+        rel="icon"
+        type="image/jpeg"
+        href="assets/logo.jpeg"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="chatbot.css?v=40"
+    >
 
 </head>
 
+
 <body>
 
-<div class="welcome">
 
-    <div class="logo">
-        <img src="assets/logo.jpeg"
-             alt="Exotic Furniture Palakkad Logo">
+    <!-- =====================================
+         MAIN WEBSITE
+         ===================================== -->
+
+    <div class="welcome">
+
+
+        <div class="logo">
+
+            <img
+                src="assets/logo.jpeg"
+                alt="Exotic Furniture Palakkad Logo"
+            >
+
+        </div>
+
+
+        <h1>
+            Welcome to Exotic Furniture Palakkad
+        </h1>
+
+
+        <p class="tag">
+            Best Furniture Shop in Palakkad
+        </p>
+
+
+        <p class="desc">
+
+            Thank you for choosing
+            <strong>Exotic Furniture Palakkad</strong>.
+
+            <br><br>
+
+            We offer premium quality sofas,
+            Orchid wooden sofas, cots,
+            mattresses, wardrobes, dining tables,
+            office tables, office chairs,
+            bedroom sets and customized furniture
+            at affordable prices.
+
+            <br><br>
+
+            Your feedback helps us improve our service.
+            Please take a few seconds to share your
+            valuable experience on Google.
+
+        </p>
+
+
+        <img
+            src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200"
+            class="hero"
+            alt="Premium Furniture Showroom in Palakkad"
+            loading="lazy"
+        >
+
+
+        <!-- =====================================
+             OPEN RASHI AI
+             ===================================== -->
+
+        <button
+            class="start-btn-fixed"
+            type="button"
+            onclick="openRashiAI()"
+        >
+            ⭐ Choose Your Review
+        </button>
+
+
     </div>
 
-    <h1>
-         Welcome to Exotic Furniture Palakkad
-    </h1>
 
-    <p class="tag">
-       Best Furniture Shop in Palakkad
-    </p>
+    <!-- =====================================
+         FOOTER
+         ===================================== -->
 
-    <p class="desc">
+    <footer class="footer">
 
-        Thank you for choosing
-        <strong>Exotic Furniture Palakkad</strong>.
+        ©
+        <span id="year"></span>
+        RASHID™. All Rights Reserved.
 
-        <br><br>
+    </footer>
 
-        We offer premium quality sofas, Orchid wooden sofas,
-        cots, mattresses, wardrobes, dining tables,
-        office tables, office chairs,
-        bedroom sets and customized furniture
-        at affordable prices.
 
-        <br><br>
+    <!-- =====================================
+         YEAR
+         ===================================== -->
 
-        Your feedback helps us improve our service.
-        Please take a few seconds to share your valuable
-        experience on Google.
+    <script>
 
-    </p>
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
 
-    <img
-    src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200"
-    class="hero"
-    alt="Premium Furniture Showroom in Palakkad"
-    loading="lazy">
+    </script>
 
-    <button class="start-btn-fixed" onclick="goToReviews()">
-    ⭐ Choose Your Review
-</button>
-</div>
 
-<footer class="footer">
-    © <span id="year"></span> RASHID™. All Rights Reserved.
-</footer>
+    <!-- =====================================
+         RASHI AI
+         ===================================== -->
 
-<script>
-document.getElementById("year").textContent =
-new Date().getFullYear();
+    <script src="chatbot.js?v=40"></script>
 
-function goToReviews(){
-    window.location.href="reviews.html";
-}
-</script>
+
+    <script>
+
+        function openRashiAI() {
+
+            const rashiButton =
+                document.getElementById("rashiAIButton");
+
+            if (rashiButton) {
+
+                rashiButton.click();
+
+            }
+
+        }
+
+    </script>
+
 
 </body>
+
 </html>
