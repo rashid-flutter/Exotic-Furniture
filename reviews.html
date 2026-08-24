@@ -1,72 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Google Reviews | Exotic Furniture Palakkad</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<meta name="description" content="Share your experience with Exotic Furniture Palakkad. Your Google review helps us improve our service and helps other customers choose the best furniture shop in Palakkad.">
+    <title>
+        Google Reviews | Exotic Furniture Palakkad
+    </title>
 
-<meta name="keywords" content="Exotic Furniture Palakkad Reviews, Best Furniture Shop in Palakkad, Furniture Reviews">
+    <meta
+        name="description"
+        content="Share your experience with Exotic Furniture Palakkad. Your Google review helps us improve our service and helps other customers choose the best furniture shop in Palakkad."
+    >
 
-<meta name="robots" content="index, follow">
+    <meta
+        name="keywords"
+        content="Exotic Furniture Palakkad Reviews, Best Furniture Shop in Palakkad, Furniture Reviews"
+    >
 
-<meta name="theme-color" content="#16a34a">
+    <meta
+        name="robots"
+        content="index, follow"
+    >
 
-<link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+    <meta
+        name="theme-color"
+        content="#16a34a"
+    >
 
-<link rel="stylesheet" href="style.css">
+    <link
+        rel="icon"
+        type="image/jpeg"
+        href="assets/logo.jpeg"
+    >
+
+    <!-- MAIN CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- RASHI AI CSS -->
+    <link
+        rel="stylesheet"
+        href="chatbot.css?v=50"
+    >
 
 </head>
 
+
 <body>
 
-<div class="logo">
-    <img src="assets/logo.jpeg"
-        alt="Exotic Furniture Palakkad Logo"
-        loading="eager">
-</div>
 
-<div class="container">
+    <!-- =====================================
+         EXOTIC FURNITURE LOGO
+         ===================================== -->
 
+    <div class="logo">
 
-    <div class="header">
-        <h1>⭐⭐⭐⭐⭐</h1>
-        <h2>Choose a Review</h2>
+        <img
+            src="assets/logo.jpeg"
+            alt="Exotic Furniture Palakkad Logo"
+            loading="eager"
+        >
 
-        <p>
-            Select a review below and tap
-            <strong>Add Your Review</strong>.
-            The review will be copied and you'll be redirected to Google Reviews.
-        </p>
-    </div>
-    <!-- Search Bar -->
-    <div class="search-box">
-        <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 Search reviews (e.g. sofa, mattress, wardrobe)...">
     </div>
 
 
-    <div id="reviewList"></div>
+    <!-- =====================================
+         REVIEW PAGE
+         ===================================== -->
 
-</div>
-<div id="toast" class="toast">
-    ✅ Review copied! Opening Google Reviews...
-</div>
+    <div class="container">
 
-<footer class="footer">
-    &copy; <span id="year"></span> RASHID™. All Rights Reserved.
-</footer>
 
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+        <!-- HEADER -->
 
-<script src="script.js" defer></script>
+        <div class="header">
+
+            <h1>
+                ⭐⭐⭐⭐⭐
+            </h1>
+
+            <h2>
+                Choose a Review
+            </h2>
+
+            <p>
+
+                Select a review below and tap
+                <strong>Add Your Review</strong>.
+
+                The review will be copied and
+                you'll be redirected to Google Reviews.
+
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             RASHI AI GENERATOR BUTTON
+             ===================================== -->
+
+        <button
+            type="button"
+            class="ai-review-btn"
+            onclick="openRashiAI()"
+        >
+
+            ✨ Generate My Review with Rashi AI
+
+        </button>
+
+
+        <!-- SEARCH BAR -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search reviews (e.g. sofa, mattress, wardrobe)..."
+            >
+
+        </div>
+
+
+        <!-- REVIEW LIST -->
+
+        <div id="reviewList"></div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         TOAST
+         ===================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    >
+
+        ✅ Review copied!
+        Opening Google Reviews...
+
+    </div>
+
+
+    <!-- =====================================
+         FOOTER
+         ===================================== -->
+
+    <footer class="footer">
+
+        &copy;
+
+        <span id="year"></span>
+
+        RASHID™. All Rights Reserved.
+
+    </footer>
+
+
+    <!-- =====================================
+         YEAR
+         ===================================== -->
+
+    <script>
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+    </script>
+
+
+    <!-- =====================================
+         EXISTING REVIEW SYSTEM
+         ===================================== -->
+
+    <script
+        src="script.js"
+        defer
+    ></script>
+
+
+    <!-- =====================================
+         RASHI AI
+         ===================================== -->
+
+    <script
+        src="chatbot.js?v=50"
+    ></script>
+
 
 </body>
+
 </html>
