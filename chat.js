@@ -1,68 +1,69 @@
 // ==========================================
-// RASHI AI - VERCEL API
-// Exotic Furniture Palakkad
+// RASHI AI - Exotic Furniture Palakkad
+// Google Review Assistant
 // ==========================================
 
-export default async function handler(req, res) {
+const chatMessages =
+    document.getElementById("chatMessages");
 
-    // --------------------------------------
-    // ONLY POST
-    // --------------------------------------
+const chatInput =
+    document.getElementById("chatInput");
 
-    if (req.method !== "POST") {
-
-        return res.status(405).json({
-            error: "Method not allowed"
-        });
-
-    }
+const sendButton =
+    document.getElementById("sendButton");
 
 
-    // --------------------------------------
-    // CHECK API KEY
-    // --------------------------------------
+// ==========================================
+// INITIAL MESSAGE
+// ==========================================
 
-    const apiKey =
-        process.env.OPENROUTER_API_KEY;
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    if (!apiKey) {
-
-        console.error(
-            "OPENROUTER_API_KEY is missing"
+        addAIMessage(
+            "Hi! I'm Rashi AI 👋\n\n" +
+            "I can help you write a natural Google review for Exotic Furniture Palakkad.\n\n" +
+            "Tell me about your actual experience — for example, the furniture you purchased, showroom experience, staff behaviour, quality or service."
         );
 
-        return res.status(500).json({
-            error:
-                "OPENROUTER_API_KEY is not configured in Vercel."
-        });
-
     }
+);
 
 
-    // --------------------------------------
-    // GET MESSAGE
-    // --------------------------------------
+// ==========================================
+// SEND MESSAGE
+// ==========================================
 
-    const { message } = req.body || {};
+async function sendMessage() {
 
-    if (!message) {
+    const message =
+        chatInput.value.trim();
 
-        return res.status(400).json({
-            error: "Message is required."
-        });
-
-    }
+    if (!message) return;
 
 
-    // --------------------------------------
-    // OPENROUTER REQUEST
-    // --------------------------------------
+    addUserMessage(message);
+
+    chatInput.value = "";
+
+    sendButton.disabled = true;
+
+    sendButton.textContent =
+        "Writing...";
+
+
+    const loadingMessage =
+        addAIMessage(
+            "Rashi AI is writing your review..."
+        );
+
 
     try {
 
-        const openRouterResponse =
+        const response =
             await fetch(
-                "https://openrouter.ai/api/v1/chat/completions",
+                "/api/chat",
                 {
 
                     method: "POST",
@@ -70,76 +71,13 @@ export default async function handler(req, res) {
                     headers: {
 
                         "Content-Type":
-                            "application/json",
-
-                        "Authorization":
-                            `Bearer ${apiKey}`,
-
-                        "HTTP-Referer":
-                            "https://exoticfurniture.vercel.app",
-
-                        "X-Title":
-                            "Rashi AI - Exotic Furniture Palakkad"
+                            "application/json"
 
                     },
 
                     body: JSON.stringify({
 
-                        model:
-                            "openai/gpt-5.2",
-
-                        messages: [
-
-                            {
-                                role: "system",
-
-                                content: `
-You are Rashi AI, the review-writing assistant
-for Exotic Furniture Palakkad.
-
-Your ONLY purpose is to help customers turn their
-REAL experience into a natural Google review.
-
-Business:
-Exotic Furniture Palakkad
-
-Location:
-Palakkad, Kerala, India
-
-Rules:
-
-- Never invent customer experiences.
-- Never invent products.
-- Never invent prices.
-- Never invent staff names.
-- Never invent delivery information.
-- Never invent complaints.
-- Use only information provided by the customer.
-- Keep the review natural and human.
-- Avoid exaggerated marketing language.
-- Do not repeatedly use "excellent", "amazing", or "best".
-- Keep the review suitable for Google Reviews.
-- If the customer gives too little information,
-  ask ONE simple question.
-- Otherwise provide ONE polished review.
-- You may also provide a shorter alternative.
-
-Do not claim something happened unless the customer
-actually said it happened.
-`
-                            },
-
-                            {
-                                role: "user",
-
-                                content: message
-                            }
-
-                        ],
-
-                        temperature: 0.7,
-
-                        max_tokens: 300
+                        message: message
 
                     })
 
@@ -147,94 +85,169 @@ actually said it happened.
             );
 
 
-        // --------------------------------------
-        // READ OPENROUTER RESPONSE
-        // --------------------------------------
-
         const data =
-            await openRouterResponse.json();
+            await response.json();
 
 
-        console.log(
-            "OpenRouter status:",
-            openRouterResponse.status
+        loadingMessage.remove();
+
+
+        if (!response.ok) {
+
+            console.error(
+                "API error:",
+                data
+            );
+
+            addAIMessage(
+                "⚠️ " +
+                (
+                    data.error ||
+                    "Rashi AI could not connect."
+                )
+            );
+
+            return;
+
+        }
+
+
+        if (!data.reply) {
+
+            addAIMessage(
+                "⚠️ Rashi AI returned an empty response."
+            );
+
+            return;
+
+        }
+
+
+        addAIMessage(
+            data.reply
         );
-
-
-        // --------------------------------------
-        // OPENROUTER ERROR
-        // --------------------------------------
-
-        if (!openRouterResponse.ok) {
-
-            console.error(
-                "OpenRouter error:",
-                JSON.stringify(data)
-            );
-
-            return res
-                .status(openRouterResponse.status)
-                .json({
-
-                    error:
-                        data?.error?.message ||
-                        "OpenRouter request failed."
-
-                });
-
-        }
-
-
-        // --------------------------------------
-        // GET AI RESPONSE
-        // --------------------------------------
-
-        const reply =
-            data?.choices?.[0]?.message?.content;
-
-
-        if (!reply) {
-
-            console.error(
-                "Invalid OpenRouter response:",
-                JSON.stringify(data)
-            );
-
-            return res.status(500).json({
-
-                error:
-                    "OpenRouter returned no AI response."
-
-            });
-
-        }
-
-
-        // --------------------------------------
-        // SUCCESS
-        // --------------------------------------
-
-        return res.status(200).json({
-
-            reply: reply
-
-        });
 
 
     } catch (error) {
 
         console.error(
-            "Rashi AI server error:",
+            "Rashi AI Error:",
             error
         );
 
-        return res.status(500).json({
 
-            error:
-                "Server error while connecting to OpenRouter."
+        loadingMessage.remove();
 
-        });
+
+        addAIMessage(
+            "⚠️ Unable to connect to Rashi AI. Please try again."
+        );
+
+
+    } finally {
+
+        sendButton.disabled = false;
+
+        sendButton.textContent =
+            "Send";
+
+        chatInput.focus();
 
     }
 
 }
+
+
+// ==========================================
+// USER MESSAGE
+// ==========================================
+
+function addUserMessage(message) {
+
+    const messageDiv =
+        document.createElement("div");
+
+    messageDiv.className =
+        "chat-message user-message";
+
+    messageDiv.textContent =
+        message;
+
+    chatMessages.appendChild(
+        messageDiv
+    );
+
+    scrollToBottom();
+
+}
+
+
+// ==========================================
+// AI MESSAGE
+// ==========================================
+
+function addAIMessage(message) {
+
+    const messageDiv =
+        document.createElement("div");
+
+    messageDiv.className =
+        "chat-message ai-message";
+
+    messageDiv.textContent =
+        message;
+
+    chatMessages.appendChild(
+        messageDiv
+    );
+
+    scrollToBottom();
+
+    return messageDiv;
+
+}
+
+
+// ==========================================
+// AUTO SCROLL
+// ==========================================
+
+function scrollToBottom() {
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+}
+
+
+// ==========================================
+// ENTER KEY
+// ==========================================
+
+chatInput.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// SEND BUTTON
+// ==========================================
+
+sendButton.addEventListener(
+    "click",
+    sendMessage
+);
