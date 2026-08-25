@@ -16,6 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
+    // GOOGLE REVIEW URL
+    // ==========================================
+
+    const GOOGLE_REVIEW_URL =
+        "https://g.page/r/YOUR_GOOGLE_REVIEW_LINK/review";
+
+
+    // ==========================================
     // CHECK ELEMENTS
     // ==========================================
 
@@ -54,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Clear input
         chatInput.value = "";
 
+
         // Disable button
         sendButton.disabled = true;
         sendButton.textContent = "Writing...";
@@ -84,13 +93,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
 
-            // Try to read JSON safely
+            // ==========================================
+            // READ JSON SAFELY
+            // ==========================================
+
             let data;
 
             try {
-                data = await response.json();
+
+                data =
+                    await response.json();
+
             } catch {
+
                 data = {};
+
             }
 
 
@@ -98,7 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
             loadingMessage.remove();
 
 
-            // API error
+            // ==========================================
+            // API ERROR
+            // ==========================================
+
             if (!response.ok) {
 
                 console.error(
@@ -118,7 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // Empty response
+            // ==========================================
+            // EMPTY RESPONSE
+            // ==========================================
+
             if (!data.reply) {
 
                 addAIMessage(
@@ -129,8 +152,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // Show AI response
-            addAIMessage(
+            // ==========================================
+            // SHOW GENERATED REVIEW
+            // ==========================================
+
+            addAIReview(
                 data.reply
             );
 
@@ -189,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // AI MESSAGE
+    // NORMAL AI MESSAGE
     // ==========================================
 
     function addAIMessage(message) {
@@ -210,6 +236,215 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollToBottom();
 
         return messageDiv;
+
+    }
+
+
+    // ==========================================
+    // GENERATED REVIEW
+    // ==========================================
+
+    function addAIReview(review) {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className =
+            "generated-review-wrapper";
+
+
+        // Review text
+        const reviewDiv =
+            document.createElement("div");
+
+        reviewDiv.className =
+            "chat-message ai-message generated-review";
+
+        reviewDiv.textContent =
+            review.trim();
+
+
+        // ==========================================
+        // ARROW BUTTON
+        // ==========================================
+
+        const arrowButton =
+            document.createElement("button");
+
+        arrowButton.type =
+            "button";
+
+        arrowButton.className =
+            "review-arrow-button";
+
+        arrowButton.setAttribute(
+            "aria-label",
+            "Copy review and open Google Reviews"
+        );
+
+        arrowButton.innerHTML =
+            "➜";
+
+
+        // ==========================================
+        // ARROW CLICK
+        // ==========================================
+
+        arrowButton.addEventListener(
+            "click",
+            async () => {
+
+                const reviewText =
+                    review.trim();
+
+                try {
+
+                    await copyReview(
+                        reviewText
+                    );
+
+                    showReviewToast();
+
+                    // Small delay so user sees confirmation
+                    setTimeout(() => {
+
+                        window.location.href =
+                            GOOGLE_REVIEW_URL;
+
+                    }, 500);
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Copy failed:",
+                        error
+                    );
+
+                    // Still open Google Reviews
+                    window.location.href =
+                        GOOGLE_REVIEW_URL;
+
+                }
+
+            }
+        );
+
+
+        // Add elements
+        wrapper.appendChild(
+            reviewDiv
+        );
+
+        wrapper.appendChild(
+            arrowButton
+        );
+
+
+        chatMessages.appendChild(
+            wrapper
+        );
+
+        scrollToBottom();
+
+    }
+
+
+    // ==========================================
+    // COPY REVIEW
+    // ==========================================
+
+    async function copyReview(text) {
+
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(
+                text
+            );
+
+            return;
+
+        }
+
+
+        // Fallback for older browsers
+        const textarea =
+            document.createElement("textarea");
+
+        textarea.value =
+            text;
+
+        textarea.style.position =
+            "fixed";
+
+        textarea.style.left =
+            "-9999px";
+
+        document.body.appendChild(
+            textarea
+        );
+
+        textarea.focus();
+
+        textarea.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+        textarea.remove();
+
+    }
+
+
+    // ==========================================
+    // TOAST
+    // ==========================================
+
+    function showReviewToast() {
+
+        let toast =
+            document.getElementById(
+                "rashiReviewToast"
+            );
+
+
+        if (!toast) {
+
+            toast =
+                document.createElement("div");
+
+            toast.id =
+                "rashiReviewToast";
+
+            toast.className =
+                "rashi-review-toast";
+
+            toast.textContent =
+                "✅ Review copied! Opening Google Reviews...";
+
+            document.body.appendChild(
+                toast
+            );
+
+        }
+
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        }, 1800);
 
     }
 
@@ -261,15 +496,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
     // EXPOSE SEND FUNCTION
-    // For quick buttons
     // ==========================================
 
-    window.rashiAISendMessage = function(message) {
+    window.rashiAISendMessage =
+        function(message) {
 
-        chatInput.value = message;
+            chatInput.value =
+                message;
 
-        sendMessage();
+            sendMessage();
 
-    };
+        };
 
 });
