@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chatbotButton.innerHTML = `
         <span class="rashi-ai-icon">R</span>
-        <span class="rashi-ai-label">Rashi AI</span>
+        <span class="rashi-ai-label">Rashi</span>
     `;
 
     document.body.appendChild(chatbotButton);
