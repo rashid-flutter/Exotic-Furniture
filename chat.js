@@ -297,8 +297,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // ==========================================
         // ARROW CLICK
         // ==========================================
+// ==========================================
+// ARROW CLICK
+// ==========================================
 
-        arrowButton.addEventListener("click", async function () {
+arrowButton.addEventListener("click", async function () {
 
     const reviewText = review.trim();
 
@@ -306,16 +309,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
 
+        // Copy generated review
         await copyReview(reviewText);
 
-        showReviewToast();
-
-        setTimeout(function () {
-
-            window.location.href =
-                GOOGLE_REVIEW_URL;
-
-        }, 500);
+        // Open Google Review
+        openGoogleReview();
 
     } catch (error) {
 
@@ -324,12 +322,43 @@ document.addEventListener("DOMContentLoaded", () => {
             error
         );
 
-        window.location.href =
-            GOOGLE_REVIEW_URL;
+        // Open Google Review even if copy fails
+        openGoogleReview();
 
     }
 
 });
+
+
+// ==========================================
+// OPEN GOOGLE REVIEW
+// ==========================================
+
+function openGoogleReview() {
+
+    const toast =
+        document.getElementById("rashiReviewToast");
+
+    if (toast) {
+
+        toast.classList.add("show");
+
+    }
+
+    setTimeout(() => {
+
+        if (toast) {
+
+            toast.classList.remove("show");
+
+        }
+
+        window.location.href =
+            GOOGLE_REVIEW_URL;
+
+    }, 1000);
+
+}
 
         // ==========================================
         // ADD TO PAGE
