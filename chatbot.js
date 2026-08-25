@@ -1,563 +1,252 @@
 // ==========================================
-// RASHI AI - Exotic Furniture Palakkad
-// Google Review Assistant
+// RASHI AI CHATBOT
+// Exotic Furniture Palakkad
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const chatMessages =
-        document.getElementById("chatMessages");
 
-    const chatInput =
-        document.getElementById("chatInput");
+    // ==========================================
+    // CREATE FLOATING CHATBOT BUTTON
+    // ==========================================
 
-    const sendButton =
-        document.getElementById("sendButton");
+    const chatbotButton = document.createElement("button");
+
+    chatbotButton.id = "rashiAIButton";
+    chatbotButton.className = "rashi-ai-button";
+
+    chatbotButton.innerHTML = `
+        <span class="rashi-ai-icon">R</span>
+        <span class="rashi-ai-label">Rashi AI</span>
+    `;
+
+    document.body.appendChild(chatbotButton);
 
 
     // ==========================================
-    // GOOGLE REVIEW PAGE
+    // CREATE CHATBOT WINDOW
     // ==========================================
 
-    const GOOGLE_REVIEW_URL =
-        "https://www.google.com/maps/search/?api=1&query=Exotic+Furniture+Palakkad";
+    const chatbotWindow = document.createElement("div");
 
-
-    // ==========================================
-    // CHECK ELEMENTS
-    // ==========================================
-
-    if (!chatMessages || !chatInput || !sendButton) {
-
-        console.error(
-            "Rashi AI: Chat elements not found."
-        );
-
-        return;
-    }
+    chatbotWindow.id = "rashiAIWindow";
+    chatbotWindow.className = "rashi-ai-window";
 
 
     // ==========================================
-    // INITIAL MESSAGE
+    // CHATBOT HTML
+    // ONE HEADER ONLY
     // ==========================================
 
-    addAIMessage(
-        "Hi! I'm Rashi AI 👋\n\n" +
-        "I can help you write a natural Google review for Exotic Furniture Palakkad.\n\n" +
-        "Tell me about your actual experience — for example, the furniture you purchased, showroom experience, staff behaviour, quality or service."
-    );
+    chatbotWindow.innerHTML = `
+
+        <!-- ==================================
+             RASHI AI HEADER
+             ================================== -->
+
+        <header class="rashi-ai-header">
+
+            <div class="rashi-ai-profile">
+
+                <div class="rashi-ai-avatar">
+                    R
+                </div>
+
+                <div class="rashi-ai-info">
+
+                    <h3>
+                        Rashi AI
+                    </h3>
+
+                    <span>
+                        <b>●</b> Exotic Furniture Palakkad
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="rashiAIClose"
+                class="rashi-ai-close"
+                aria-label="Close Rashi AI"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <!-- ==================================
+             CHAT CONTENT
+             ================================== -->
+
+        <iframe
+            src="chatbot.html?v=21"
+            class="rashi-ai-iframe"
+            title="Rashi AI"
+            frameborder="0"
+            scrolling="no"
+        ></iframe>
+
+    `;
+
+
+    document.body.appendChild(chatbotWindow);
 
 
     // ==========================================
-    // SEND MESSAGE
+    // GET ELEMENTS
     // ==========================================
 
-    async function sendMessage() {
+    const openButton =
+        document.getElementById("rashiAIButton");
 
-        const message =
-            chatInput.value.trim();
+    const closeButton =
+        document.getElementById("rashiAIClose");
 
-        if (!message) return;
+    const windowElement =
+        document.getElementById("rashiAIWindow");
 
+    const header =
+        windowElement.querySelector(".rashi-ai-header");
 
-        addUserMessage(message);
-
-        chatInput.value = "";
-
-        sendButton.disabled = true;
-
-        sendButton.textContent =
-            "Writing...";
+    const iframe =
+        windowElement.querySelector(".rashi-ai-iframe");
 
 
-        const loadingMessage =
-            addAIMessage(
-                "Rashi AI is writing your review..."
-            );
+    // ==========================================
+    // FORCE CORRECT WINDOW LAYOUT
+    // ==========================================
+
+    windowElement.style.display = "flex";
+
+    windowElement.style.flexDirection = "column";
+
+    windowElement.style.overflow = "hidden";
 
 
-        try {
+    // ==========================================
+    // FORCE HEADER TO STAY VISIBLE
+    // ==========================================
 
-            const response =
-                await fetch(
-                    "/api/chat",
-                    {
-                        method: "POST",
+    header.style.position = "relative";
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+    header.style.flex = "0 0 88px";
 
-                        body: JSON.stringify({
-                            message: message
-                        })
-                    }
-                );
+    header.style.height = "88px";
 
+    header.style.minHeight = "88px";
 
-            let data;
+    header.style.width = "100%";
 
+    header.style.boxSizing = "border-box";
 
-            try {
+    header.style.zIndex = "100";
 
-                data =
-                    await response.json();
+    header.style.display = "flex";
 
-            } catch {
+    header.style.alignItems = "center";
 
-                data = {};
-
-            }
+    header.style.justifyContent = "space-between";
 
 
-            loadingMessage.remove();
+    // ==========================================
+    // FORCE IFRAME BELOW HEADER
+    // ==========================================
+
+    iframe.style.position = "relative";
+
+    iframe.style.top = "auto";
+
+    iframe.style.left = "auto";
+
+    iframe.style.right = "auto";
+
+    iframe.style.bottom = "auto";
+
+    iframe.style.width = "100%";
+
+    iframe.style.height = "auto";
+
+    iframe.style.flex = "1 1 auto";
+
+    iframe.style.minHeight = "0";
+
+    iframe.style.border = "0";
+
+    iframe.style.margin = "0";
+
+    iframe.style.padding = "0";
+
+    iframe.style.display = "block";
+
+    iframe.style.zIndex = "1";
 
 
-            // ==========================================
-            // API ERROR
-            // ==========================================
+    // ==========================================
+    // OPEN CHATBOT
+    // ==========================================
 
-            if (!response.ok) {
+    openButton.addEventListener("click", () => {
 
-                console.error(
-                    "Rashi AI API Error:",
-                    data
-                );
+        windowElement.classList.add("active");
 
-                addAIMessage(
-                    "⚠️ " +
-                    (
-                        data.error ||
-                        "Rashi AI could not connect right now."
-                    )
-                );
+        openButton.classList.add("active");
 
-                return;
-            }
+    });
 
 
-            // ==========================================
-            // EMPTY RESPONSE
-            // ==========================================
+    // ==========================================
+    // CLOSE CHATBOT
+    // ==========================================
 
-            if (!data.reply) {
+    closeButton.addEventListener("click", () => {
 
-                addAIMessage(
-                    "⚠️ Rashi AI returned an empty response."
-                );
+        windowElement.classList.remove("active");
 
-                return;
-            }
+        openButton.classList.remove("active");
 
-
-            // ==========================================
-            // GENERATED REVIEW
-            // ==========================================
-
-            addGeneratedReview(
-                data.reply
-            );
+    });
 
 
-        } catch (error) {
+    // ==========================================
+    // ESC KEY
+    // ==========================================
 
-            console.error(
-                "Rashi AI Connection Error:",
-                error
-            );
+    document.addEventListener("keydown", (event) => {
 
+        if (event.key === "Escape") {
 
-            loadingMessage.remove();
+            windowElement.classList.remove("active");
 
-
-            addAIMessage(
-                "⚠️ Unable to connect to Rashi AI. Please try again."
-            );
-
-
-        } finally {
-
-            sendButton.disabled = false;
-
-            sendButton.textContent =
-                "Send";
-
-            chatInput.focus();
+            openButton.classList.remove("active");
 
         }
 
-    }
+    });
 
 
     // ==========================================
-    // USER MESSAGE
+    // RECEIVE CLOSE MESSAGE
     // ==========================================
 
-    function addUserMessage(message) {
-
-        const messageDiv =
-            document.createElement("div");
-
-        messageDiv.className =
-            "chat-message user-message";
-
-        messageDiv.textContent =
-            message;
-
-        chatMessages.appendChild(
-            messageDiv
-        );
-
-        scrollToBottom();
-
-    }
-
-
-    // ==========================================
-    // NORMAL AI MESSAGE
-    // ==========================================
-
-    function addAIMessage(message) {
-
-        const messageDiv =
-            document.createElement("div");
-
-        messageDiv.className =
-            "chat-message ai-message";
-
-        messageDiv.textContent =
-            message;
-
-        chatMessages.appendChild(
-            messageDiv
-        );
-
-        scrollToBottom();
-
-        return messageDiv;
-
-    }
-
-
-    // ==========================================
-    // GENERATED REVIEW
-    // ==========================================
-
-    function addGeneratedReview(review) {
-
-        const wrapper =
-            document.createElement("div");
-
-        wrapper.className =
-            "generated-review-wrapper";
-
-
-        // ==========================================
-        // REVIEW TEXT
-        // ==========================================
-
-        const reviewDiv =
-            document.createElement("div");
-
-        reviewDiv.className =
-            "chat-message ai-message generated-review";
-
-        reviewDiv.textContent =
-            review.trim();
-
-
-        // ==========================================
-        // ARROW BUTTON
-        // ==========================================
-
-        const arrowButton =
-            document.createElement("button");
-
-        arrowButton.type =
-            "button";
-
-        arrowButton.className =
-            "review-arrow-button";
-
-        arrowButton.setAttribute(
-            "aria-label",
-            "Copy review and open Google Reviews"
-        );
-
-        arrowButton.setAttribute(
-            "title",
-            "Copy review and open Google Reviews"
-        );
-
-        arrowButton.innerHTML =
-            "➜";
-
-
-        // ==========================================
-        // ARROW CLICK
-        // ==========================================
-
-        arrowButton.addEventListener(
-            "click",
-            async function () {
-
-                const reviewText =
-                    review.trim();
-
-
-                // Prevent double-click
-                arrowButton.disabled = true;
-
-
-                try {
-
-                    await copyReview(
-                        reviewText
-                    );
-
-
-                    showReviewToast();
-
-
-                    /*
-                     * Give the browser a moment
-                     * to complete the clipboard
-                     * operation before navigation.
-                     */
-
-                    setTimeout(
-                        function () {
-
-                            window.location.href =
-                                GOOGLE_REVIEW_URL;
-
-                        },
-                        500
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Review copy failed:",
-                        error
-                    );
-
-
-                    /*
-                     * If clipboard permission
-                     * fails, still open Google.
-                     */
-
-                    window.location.href =
-                        GOOGLE_REVIEW_URL;
-
-                }
-
-            }
-        );
-
-
-        // ==========================================
-        // ADD TO PAGE
-        // ==========================================
-
-        wrapper.appendChild(
-            reviewDiv
-        );
-
-        wrapper.appendChild(
-            arrowButton
-        );
-
-        chatMessages.appendChild(
-            wrapper
-        );
-
-        scrollToBottom();
-
-    }
-
-
-    // ==========================================
-    // COPY REVIEW
-    // ==========================================
-
-    async function copyReview(text) {
-
-        /*
-         * Modern browsers
-         */
+    window.addEventListener("message", (event) => {
 
         if (
-            navigator.clipboard &&
-            window.isSecureContext
+            event.data &&
+            event.data.type === "closeRashiAI"
         ) {
 
-            await navigator.clipboard.writeText(
-                text
-            );
+            windowElement.classList.remove("active");
 
-            return;
-        }
-
-
-        /*
-         * Fallback
-         */
-
-        const textarea =
-            document.createElement("textarea");
-
-        textarea.value =
-            text;
-
-        textarea.style.position =
-            "fixed";
-
-        textarea.style.left =
-            "-9999px";
-
-        textarea.style.top =
-            "0";
-
-        document.body.appendChild(
-            textarea
-        );
-
-        textarea.focus();
-
-        textarea.select();
-
-        const successful =
-            document.execCommand(
-                "copy"
-            );
-
-        textarea.remove();
-
-
-        if (!successful) {
-
-            throw new Error(
-                "Clipboard copy failed"
-            );
+            openButton.classList.remove("active");
 
         }
 
-    }
+    });
 
-
-    // ==========================================
-    // REVIEW TOAST
-    // ==========================================
-
-    function showReviewToast() {
-
-        let toast =
-            document.getElementById(
-                "rashiReviewToast"
-            );
-
-
-        if (!toast) {
-
-            toast =
-                document.createElement("div");
-
-            toast.id =
-                "rashiReviewToast";
-
-            toast.className =
-                "rashi-review-toast";
-
-            toast.textContent =
-                "✅ Review copied! Opening Google Reviews...";
-
-            document.body.appendChild(
-                toast
-            );
-
-        }
-
-
-        toast.classList.add(
-            "show"
-        );
-
-
-        setTimeout(
-            function () {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            1800
-        );
-
-    }
-
-
-    // ==========================================
-    // AUTO SCROLL
-    // ==========================================
-
-    function scrollToBottom() {
-
-        chatMessages.scrollTop =
-            chatMessages.scrollHeight;
-
-    }
-
-
-    // ==========================================
-    // ENTER KEY
-    // ==========================================
-
-    chatInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-
-                event.preventDefault();
-
-                sendMessage();
-
-            }
-
-        }
-    );
-
-
-    // ==========================================
-    // SEND BUTTON
-    // ==========================================
-
-    sendButton.addEventListener(
-        "click",
-        sendMessage
-    );
-
-
-    // ==========================================
-    // QUICK MESSAGE API
-    // ==========================================
-
-    window.rashiAISendMessage =
-        function(message) {
-
-            chatInput.value =
-                message;
-
-            sendMessage();
-
-        };
 
 });

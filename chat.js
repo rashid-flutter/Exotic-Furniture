@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // GOOGLE REVIEW URL
+    // GOOGLE REVIEW PAGE
     // ==========================================
 
     const GOOGLE_REVIEW_URL =
-        "https://g.page/r/YOUR_GOOGLE_REVIEW_LINK/review";
+        "https://www.google.com/maps/search/?api=1&query=Exotic+Furniture+Palakkad";
 
 
     // ==========================================
@@ -28,7 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     if (!chatMessages || !chatInput || !sendButton) {
-        console.error("Rashi AI: Chat elements not found.");
+
+        console.error(
+            "Rashi AI: Chat elements not found."
+        );
+
         return;
     }
 
@@ -56,19 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!message) return;
 
 
-        // Show user message
         addUserMessage(message);
 
-        // Clear input
         chatInput.value = "";
 
-
-        // Disable button
         sendButton.disabled = true;
-        sendButton.textContent = "Writing...";
+
+        sendButton.textContent =
+            "Writing...";
 
 
-        // Loading message
         const loadingMessage =
             addAIMessage(
                 "Rashi AI is writing your review..."
@@ -78,26 +79,25 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
 
             const response =
-                await fetch("/api/chat", {
+                await fetch(
+                    "/api/chat",
+                    {
+                        method: "POST",
 
-                    method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                        body: JSON.stringify({
+                            message: message
+                        })
+                    }
+                );
 
-                    body: JSON.stringify({
-                        message: message
-                    })
-
-                });
-
-
-            // ==========================================
-            // READ JSON SAFELY
-            // ==========================================
 
             let data;
+
 
             try {
 
@@ -111,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // Remove loading message
             loadingMessage.remove();
 
 
@@ -153,10 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             // ==========================================
-            // SHOW GENERATED REVIEW
+            // GENERATED REVIEW
             // ==========================================
 
-            addAIReview(
+            addGeneratedReview(
                 data.reply
             );
 
@@ -181,7 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             sendButton.disabled = false;
 
-            sendButton.textContent = "Send";
+            sendButton.textContent =
+                "Send";
 
             chatInput.focus();
 
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // GENERATED REVIEW
     // ==========================================
 
-    function addAIReview(review) {
+    function addGeneratedReview(review) {
 
         const wrapper =
             document.createElement("div");
@@ -253,7 +253,10 @@ document.addEventListener("DOMContentLoaded", () => {
             "generated-review-wrapper";
 
 
-        // Review text
+        // ==========================================
+        // REVIEW TEXT
+        // ==========================================
+
         const reviewDiv =
             document.createElement("div");
 
@@ -282,6 +285,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "Copy review and open Google Reviews"
         );
 
+        arrowButton.setAttribute(
+            "title",
+            "Copy review and open Google Reviews"
+        );
+
         arrowButton.innerHTML =
             "➜";
 
@@ -292,10 +300,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         arrowButton.addEventListener(
             "click",
-            async () => {
+            async function () {
 
                 const reviewText =
                     review.trim();
+
+
+                // Prevent double-click
+                arrowButton.disabled = true;
+
 
                 try {
 
@@ -303,25 +316,40 @@ document.addEventListener("DOMContentLoaded", () => {
                         reviewText
                     );
 
+
                     showReviewToast();
 
-                    // Small delay so user sees confirmation
-                    setTimeout(() => {
 
-                        window.location.href =
-                            GOOGLE_REVIEW_URL;
+                    /*
+                     * Give the browser a moment
+                     * to complete the clipboard
+                     * operation before navigation.
+                     */
 
-                    }, 500);
+                    setTimeout(
+                        function () {
+
+                            window.location.href =
+                                GOOGLE_REVIEW_URL;
+
+                        },
+                        500
+                    );
 
 
                 } catch (error) {
 
                     console.error(
-                        "Copy failed:",
+                        "Review copy failed:",
                         error
                     );
 
-                    // Still open Google Reviews
+
+                    /*
+                     * If clipboard permission
+                     * fails, still open Google.
+                     */
+
                     window.location.href =
                         GOOGLE_REVIEW_URL;
 
@@ -331,7 +359,10 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        // Add elements
+        // ==========================================
+        // ADD TO PAGE
+        // ==========================================
+
         wrapper.appendChild(
             reviewDiv
         );
@@ -339,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.appendChild(
             arrowButton
         );
-
 
         chatMessages.appendChild(
             wrapper
@@ -356,6 +386,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function copyReview(text) {
 
+        /*
+         * Modern browsers
+         */
+
         if (
             navigator.clipboard &&
             window.isSecureContext
@@ -366,11 +400,13 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             return;
-
         }
 
 
-        // Fallback for older browsers
+        /*
+         * Fallback
+         */
+
         const textarea =
             document.createElement("textarea");
 
@@ -383,6 +419,9 @@ document.addEventListener("DOMContentLoaded", () => {
         textarea.style.left =
             "-9999px";
 
+        textarea.style.top =
+            "0";
+
         document.body.appendChild(
             textarea
         );
@@ -391,17 +430,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         textarea.select();
 
-        document.execCommand(
-            "copy"
-        );
+        const successful =
+            document.execCommand(
+                "copy"
+            );
 
         textarea.remove();
+
+
+        if (!successful) {
+
+            throw new Error(
+                "Clipboard copy failed"
+            );
+
+        }
 
     }
 
 
     // ==========================================
-    // TOAST
+    // REVIEW TOAST
     // ==========================================
 
     function showReviewToast() {
@@ -438,13 +487,16 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        setTimeout(() => {
+        setTimeout(
+            function () {
 
-            toast.classList.remove(
-                "show"
-            );
+                toast.classList.remove(
+                    "show"
+                );
 
-        }, 1800);
+            },
+            1800
+        );
 
     }
 
@@ -495,7 +547,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // EXPOSE SEND FUNCTION
+    // QUICK MESSAGE API
     // ==========================================
 
     window.rashiAISendMessage =
