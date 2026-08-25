@@ -353,7 +353,8 @@ function openGoogleReview() {
 
         }
 
-        window.location.href =
+        // Open Google Review in the full browser page
+        window.top.location.href =
             GOOGLE_REVIEW_URL;
 
     }, 1000);
