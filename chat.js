@@ -298,66 +298,38 @@ document.addEventListener("DOMContentLoaded", () => {
         // ARROW CLICK
         // ==========================================
 
-        arrowButton.addEventListener(
-            "click",
-            async function () {
+        arrowButton.addEventListener("click", async function () {
 
-                const reviewText =
-                    review.trim();
+    const reviewText = review.trim();
 
+    arrowButton.disabled = true;
 
-                // Prevent double-click
-                arrowButton.disabled = true;
+    try {
 
+        await copyReview(reviewText);
 
-                try {
+        showReviewToast();
 
-                    await copyReview(
-                        reviewText
-                    );
+        setTimeout(function () {
 
+            window.location.href =
+                GOOGLE_REVIEW_URL;
 
-                    showReviewToast();
+        }, 500);
 
+    } catch (error) {
 
-                    /*
-                     * Give the browser a moment
-                     * to complete the clipboard
-                     * operation before navigation.
-                     */
-
-                    setTimeout(
-                        function () {
-
-                            window.location.href =
-                                GOOGLE_REVIEW_URL;
-
-                        },
-                        500
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Review copy failed:",
-                        error
-                    );
-
-
-                    /*
-                     * If clipboard permission
-                     * fails, still open Google.
-                     */
-
-                    window.location.href =
-                        GOOGLE_REVIEW_URL;
-
-                }
-
-            }
+        console.error(
+            "Review copy failed:",
+            error
         );
 
+        window.location.href =
+            GOOGLE_REVIEW_URL;
+
+    }
+
+});
 
         // ==========================================
         // ADD TO PAGE
