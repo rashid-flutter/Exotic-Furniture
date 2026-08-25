@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     const GOOGLE_REVIEW_URL =
-        "https://www.google.com/maps/search/?api=1&query=Exotic+Furniture+Palakkad";
+        "https://g.page/r/CeKLmh_yqQCVEBE/review";
 
 
     // ==========================================
