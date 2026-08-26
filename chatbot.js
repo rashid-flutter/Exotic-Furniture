@@ -1,13 +1,13 @@
 // ==========================================
 // RASHI AI CHATBOT
 // Exotic Furniture Palakkad
+// FULL SCREEN + RESPONSIVE
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
     // ==========================================
-    // CREATE FLOATING CHATBOT BUTTON
+    // CREATE FLOATING R BUTTON
     // ==========================================
 
     const chatbotButton = document.createElement("button");
@@ -15,28 +15,74 @@ document.addEventListener("DOMContentLoaded", () => {
     chatbotButton.id = "rashiAIButton";
     chatbotButton.className = "rashi-ai-button";
 
-    chatbotButton.innerHTML = `
-        <span class="rashi-ai-icon">R</span>
-        <span class="rashi-ai-label">Rashi</span>
-    `;
+    chatbotButton.type = "button";
+    chatbotButton.setAttribute(
+        "aria-label",
+        "Open Rashi AI"
+    );
 
-    document.body.appendChild(chatbotButton);
+   // ==========================================
+// RASHI AI LOTTIE ANIMATION
+// ==========================================
 
+chatbotButton.innerHTML = `
+    <span
+        id="rashiLottie"
+        class="rashi-ai-icon"
+    ></span>
+`;
+
+document.body.appendChild(chatbotButton);
+
+
+const rashiLottie =
+    document.getElementById("rashiLottie");
+
+
+lottie.loadAnimation({
+
+    container: rashiLottie,
+
+    renderer: "svg",
+
+    loop: true,
+
+    autoplay: true,
+
+    path: "assets/ai.json"
+
+});
+
+// ==========================================
+// RESTORE MAIN PAGE SCROLL
+// ==========================================
+
+document.documentElement.style.setProperty(
+    "overflow-y",
+    "auto",
+    "important"
+);
+
+document.body.style.setProperty(
+    "overflow-y",
+    "auto",
+    "important"
+);
+
+document.body.style.setProperty(
+    "overflow-x",
+    "hidden",
+    "important"
+);
 
     // ==========================================
-    // CREATE CHATBOT WINDOW
+    // CREATE FULL SCREEN CHATBOT
     // ==========================================
 
     const chatbotWindow = document.createElement("div");
 
     chatbotWindow.id = "rashiAIWindow";
     chatbotWindow.className = "rashi-ai-window";
-
-
-    // ==========================================
-    // CHATBOT HTML
-    // ONE HEADER ONLY
-    // ==========================================
 
     chatbotWindow.innerHTML = `
 
@@ -54,12 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="rashi-ai-info">
 
-                    <h3>
-                        Rashi AI
-                    </h3>
+                    <h3>Rashi AI</h3>
 
                     <span>
-                        <b>●</b> Exotic Furniture Palakkad
+                        <b>●</b>
+                        Exotic Furniture Palakkad
                     </span>
 
                 </div>
@@ -80,11 +125,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         <!-- ==================================
-             CHAT CONTENT
+             CHATBOT
              ================================== -->
 
         <iframe
-            src="chatbot.html?v=21"
+            src="chatbot.html?v=22"
             class="rashi-ai-iframe"
             title="Rashi AI"
             frameborder="0"
@@ -92,7 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ></iframe>
 
     `;
-
 
     document.body.appendChild(chatbotWindow);
 
@@ -111,14 +155,18 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("rashiAIWindow");
 
     const header =
-        windowElement.querySelector(".rashi-ai-header");
+        windowElement.querySelector(
+            ".rashi-ai-header"
+        );
 
     const iframe =
-        windowElement.querySelector(".rashi-ai-iframe");
+        windowElement.querySelector(
+            ".rashi-ai-iframe"
+        );
 
 
     // ==========================================
-    // FORCE CORRECT WINDOW LAYOUT
+    // FULL SCREEN WINDOW
     // ==========================================
 
     windowElement.style.display = "flex";
@@ -129,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // FORCE HEADER TO STAY VISIBLE
+    // HEADER
     // ==========================================
 
     header.style.position = "relative";
@@ -154,26 +202,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // FORCE IFRAME BELOW HEADER
+    // IFRAME
     // ==========================================
 
     iframe.style.position = "relative";
 
-    iframe.style.top = "auto";
-
-    iframe.style.left = "auto";
-
-    iframe.style.right = "auto";
-
-    iframe.style.bottom = "auto";
-
     iframe.style.width = "100%";
 
-    iframe.style.height = "auto";
+    iframe.style.height = "0";
 
-    iframe.style.flex = "1 1 auto";
+    iframe.style.flex = "1 1 0";
 
     iframe.style.minHeight = "0";
+
+    iframe.style.maxHeight = "none";
 
     iframe.style.border = "0";
 
@@ -187,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // OPEN CHATBOT
+    // OPEN
     // ==========================================
 
     openButton.addEventListener("click", () => {
@@ -196,57 +238,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
         openButton.classList.add("active");
 
+        document.body.classList.add(
+            "rashi-ai-open"
+        );
+
     });
 
 
     // ==========================================
-    // CLOSE CHATBOT
+    // CLOSE
     // ==========================================
 
-    closeButton.addEventListener("click", () => {
+    function closeRashiAI() {
 
         windowElement.classList.remove("active");
 
         openButton.classList.remove("active");
 
-    });
+        document.body.classList.remove(
+            "rashi-ai-open"
+        );
+
+    }
+
+
+    closeButton.addEventListener(
+        "click",
+        closeRashiAI
+    );
 
 
     // ==========================================
-    // ESC KEY
+    // ESC
     // ==========================================
 
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener(
+        "keydown",
+        (event) => {
 
-        if (event.key === "Escape") {
+            if (event.key === "Escape") {
 
-            windowElement.classList.remove("active");
+                closeRashiAI();
 
-            openButton.classList.remove("active");
+            }
 
         }
-
-    });
+    );
 
 
     // ==========================================
-    // RECEIVE CLOSE MESSAGE
+    // MESSAGE FROM CHATBOT
     // ==========================================
 
-    window.addEventListener("message", (event) => {
+    window.addEventListener(
+        "message",
+        (event) => {
 
-        if (
-            event.data &&
-            event.data.type === "closeRashiAI"
-        ) {
+            if (
+                event.data &&
+                event.data.type ===
+                "closeRashiAI"
+            ) {
 
-            windowElement.classList.remove("active");
+                closeRashiAI();
 
-            openButton.classList.remove("active");
+            }
 
         }
-
-    });
-
+    );
 
 });

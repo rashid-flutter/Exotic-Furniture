@@ -1521,3 +1521,744 @@ body.rashi-ai-open {
         font-size: 19px;
     }
 }
+/* ==========================================
+   RASHI AI - FLOATING R LOGO
+   ========================================== */
+
+.rashi-ai-button {
+    position: fixed !important;
+
+    right: 20px !important;
+    bottom: 20px !important;
+
+    width: 64px !important;
+    height: 64px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: 0 !important;
+    border-radius: 50% !important;
+
+    background: #111111 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    z-index: 999999 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.30) !important;
+
+    animation: rashiFloat 3s ease-in-out infinite;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease !important;
+}
+
+
+/* ==========================================
+   R LOGO
+   ========================================== */
+
+.rashi-ai-button .rashi-ai-icon {
+    display: flex !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #ffffff !important;
+
+    background: transparent !important;
+
+    font-family: Arial, sans-serif !important;
+
+    font-size: 28px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    text-align: center !important;
+}
+
+
+/* ==========================================
+   FLOATING ANIMATION
+   ========================================== */
+
+@keyframes rashiFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+
+}
+
+
+/* ==========================================
+   HOVER
+   ========================================== */
+
+.rashi-ai-button:hover {
+    transform: scale(1.08) !important;
+
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.40) !important;
+}
+
+
+/* ==========================================
+   ACTIVE
+   ========================================== */
+
+.rashi-ai-button.active {
+    transform: scale(0.92) !important;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .rashi-ai-button {
+
+        width: 58px !important;
+        height: 58px !important;
+
+        right: 16px !important;
+        bottom: 16px !important;
+
+    }
+
+    .rashi-ai-button .rashi-ai-icon {
+
+        font-size: 25px !important;
+
+    }
+
+}
+/* ==========================================
+   RASHI AI MOBILE POSITION
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .rashi-ai-button {
+        position: fixed !important;
+
+        width: 58px !important;
+        height: 58px !important;
+
+        right: 16px !important;
+
+        /* Move R above the review button */
+        bottom: 88px !important;
+
+        z-index: 999999 !important;
+
+        border-radius: 50% !important;
+
+        background: #111111 !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+
+    .rashi-ai-button .rashi-ai-icon {
+        display: flex !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        color: #ffffff !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 25px !important;
+        font-weight: 800 !important;
+
+        line-height: 1 !important;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+}
+/* ==========================================
+   RASHI AI - FULL PAGE MOBILE CHATBOT
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    /* FULL SCREEN CHATBOT */
+    .rashi-ai-window {
+        position: fixed !important;
+
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 100vw !important;
+        height: 100vh !important;
+
+        max-width: none !important;
+        max-height: none !important;
+
+        min-width: 0 !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        border-radius: 0 !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+
+        overflow: hidden !important;
+
+        background: #ffffff !important;
+
+        z-index: 999999 !important;
+
+        transform: translateY(100%) !important;
+
+        transition:
+            transform 0.35s ease !important;
+    }
+
+
+    /* OPEN */
+    .rashi-ai-window.active {
+        transform: translateY(0) !important;
+    }
+
+
+    /* ======================================
+       HEADER
+       ====================================== */
+
+    .rashi-ai-header {
+        flex: 0 0 88px !important;
+
+        width: 100% !important;
+        height: 88px !important;
+        min-height: 88px !important;
+
+        box-sizing: border-box !important;
+
+        position: relative !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        z-index: 10 !important;
+    }
+
+
+    /* ======================================
+       IFRAME
+       ====================================== */
+
+    .rashi-ai-iframe {
+        position: relative !important;
+
+        width: 100% !important;
+
+        height: 0 !important;
+
+        flex: 1 1 0 !important;
+
+        min-height: 0 !important;
+
+        max-height: none !important;
+
+        border: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+
+        overflow: hidden !important;
+
+        z-index: 1 !important;
+    }
+
+
+    /* ======================================
+       R BUTTON
+       ====================================== */
+
+    .rashi-ai-button {
+        position: fixed !important;
+
+        right: 16px !important;
+        bottom: 16px !important;
+
+        width: 58px !important;
+        height: 58px !important;
+
+        border: 0 !important;
+        border-radius: 50% !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        background: #111111 !important;
+
+        z-index: 999998 !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+
+    /* R LOGO */
+    .rashi-ai-button .rashi-ai-icon {
+        display: flex !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        color: #ffffff !important;
+
+        font-family: Arial, sans-serif !important;
+
+        font-size: 25px !important;
+        font-weight: 800 !important;
+
+        line-height: 1 !important;
+    }
+
+
+    /* HIDE FLOATING BUTTON WHEN CHAT IS OPEN */
+    .rashi-ai-button.active {
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+}
+
+/* ==========================================
+   RASHI AI
+   FULL SCREEN RESPONSIVE CHATBOT
+   ========================================== */
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+
+/* ==========================================
+   FULL SCREEN CHATBOT
+   ========================================== */
+
+.rashi-ai-window {
+
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    height: 100dvh !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border-radius: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    overflow: hidden !important;
+
+    background: #ffffff !important;
+
+    z-index: 999999 !important;
+
+    transform: translateY(100%) !important;
+
+    visibility: hidden;
+
+    transition:
+        transform .35s ease,
+        visibility .35s ease;
+}
+
+
+/* ==========================================
+   OPEN
+   ========================================== */
+
+.rashi-ai-window.active {
+
+    transform: translateY(0) !important;
+
+    visibility: visible;
+}
+
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.rashi-ai-header {
+
+    flex: 0 0 88px !important;
+
+    width: 100% !important;
+
+    height: 88px !important;
+
+    min-height: 88px !important;
+
+    box-sizing: border-box !important;
+
+    position: relative !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    z-index: 100 !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ==========================================
+   IFRAME
+   ========================================== */
+
+.rashi-ai-iframe {
+
+    width: 100% !important;
+
+    height: 0 !important;
+
+    flex: 1 1 0 !important;
+
+    min-height: 0 !important;
+
+    max-height: none !important;
+
+    display: block !important;
+
+    border: 0 !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    overflow: hidden !important;
+}
+
+
+/* ==========================================
+   FLOATING R BUTTON
+   ========================================== */
+
+.rashi-ai-button {
+
+    position: fixed !important;
+
+    right: 20px !important;
+
+    bottom: 20px !important;
+
+    width: 62px !important;
+
+    height: 62px !important;
+
+    padding: 0 !important;
+
+    margin: 0 !important;
+
+    border: 0 !important;
+
+    border-radius: 50% !important;
+
+    background: #111111 !important;
+
+    color: #ffffff !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    z-index: 999998 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.3) !important;
+
+    animation:
+        rashiFloat 3s ease-in-out infinite;
+}
+
+
+/* ==========================================
+   R LOGO
+   ========================================== */
+
+.rashi-ai-icon {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    color: #ffffff !important;
+
+    font-family: Arial, sans-serif !important;
+
+    font-size: 28px !important;
+
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+}
+
+
+/* ==========================================
+   HIDE R BUTTON WHEN OPEN
+   ========================================== */
+
+.rashi-ai-button.active {
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    pointer-events: none !important;
+}
+
+
+/* ==========================================
+   FLOAT ANIMATION
+   ========================================== */
+
+@keyframes rashiFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .rashi-ai-window {
+
+        width: 100vw !important;
+
+        height: 100dvh !important;
+
+        max-height: 100dvh !important;
+
+        border-radius: 0 !important;
+
+    }
+
+
+    .rashi-ai-header {
+
+        flex-basis: 72px !important;
+
+        height: 72px !important;
+
+        min-height: 72px !important;
+
+        padding:
+            8px 14px !important;
+
+    }
+
+
+    .rashi-ai-button {
+
+        width: 58px !important;
+
+        height: 58px !important;
+
+        right: 16px !important;
+
+        bottom: 16px !important;
+
+    }
+
+
+    .rashi-ai-icon {
+
+        font-size: 25px !important;
+
+    }
+
+}
+
+
+/* ==========================================
+   VERY SMALL PHONES
+   ========================================== */
+
+@media (max-width: 380px) {
+
+    .rashi-ai-header {
+
+        flex-basis: 68px !important;
+
+        height: 68px !important;
+
+        min-height: 68px !important;
+
+    }
+
+}
+/* ==========================================
+   CHATBOT FULL HEIGHT
+   ========================================== */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ==========================================
+   MAIN CHAT CONTAINER
+   ========================================== */
+
+.chatbot-container {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/* ==========================================
+   CHAT MESSAGES
+   ========================================== */
+
+#chatMessages {
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    height: auto;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: touch;
+
+    scroll-behavior: smooth;
+}
+
+
+/* ==========================================
+   QUICK ACTIONS
+   ========================================== */
+
+.quick-actions {
+    flex: 0 0 auto;
+
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* ==========================================
+   INPUT AREA
+   ========================================== */
+
+.chat-input-area {
+    flex: 0 0 auto;
+
+    width: 100%;
+}
