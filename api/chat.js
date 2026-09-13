@@ -315,139 +315,113 @@ ${message.trim()}
     // CALL OPENROUTER
     // ------------------------------------------
 
-    try {
+   try {
 
-        const response = await fetch(
-            "https://openrouter.ai/api/v1/chat/completions",
-            {
-
-                method: "POST",
-
-                headers: {
-
-                    "Authorization":
-                        `Bearer ${apiKey}`,
-
-                    "Content-Type":
-                        "application/json",
-
-                    "HTTP-Referer":
-                        "https://exoticfurniture.vercel.app",
-
-                    "X-Title":
-                        "Rashi AI - Exotic Furniture Palakkad"
-
-                },
-
-        body: JSON.stringify({
-    model: "inclusionai/ling-3.0-flash:free",
-
-    messages: [
+    const response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
         {
-            role: "system",
-            content: systemPrompt
-        },
-        {
-            role: "user",
-            content: message.trim()
+            method: "POST",
+
+            headers: {
+                "Authorization": `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://exoticfurniture.vercel.app",
+                "X-Title": "Rashi AI - Exotic Furniture Palakkad"
+            },
+
+            body: JSON.stringify({
+                // Automatically choose an available FREE model
+                model: "openrouter/free",
+
+                messages: [
+                    {
+                        role: "system",
+                        content: systemPrompt
+                    },
+                    {
+                        role: "user",
+                        content: message.trim()
+                    }
+                ],
+
+                temperature: 0.7,
+                max_tokens: 150
+            })
         }
-    ],
-
-    temperature: 0.7,
-    max_tokens: 120
-})
-            }
-        );
-
-
-        // ------------------------------------------
-        // READ OPENROUTER RESPONSE
-        // ------------------------------------------
-
-        const data =
-            await response.json();
-
-
-        // ------------------------------------------
-        // OPENROUTER ERROR
-        // ------------------------------------------
-
-        if (!response.ok) {
-
-            console.error(
-                "OpenRouter Error:",
-                data
-            );
-
-            return res.status(
-                response.status
-            ).json({
-
-                error:
-                    data?.error?.message ||
-                    "OpenRouter request failed."
-
-            });
-
-        }
-
-
-        // ------------------------------------------
-        // GET AI RESPONSE
-        // ------------------------------------------
-
-        const reply =
-            data?.choices?.[0]?.message?.content;
-
-
-        if (!reply) {
-
-            console.error(
-                "No AI reply:",
-                data
-            );
-
-            return res.status(500).json({
-
-                error:
-                    "Rashi AI returned an empty response."
-
-            });
-
-        }
-
-
-        // ------------------------------------------
-        // SUCCESS
-        // ------------------------------------------
-
-        return res.status(200).json({
-
-            reply: reply.trim()
-
-        });
-
-    }
-
+    );
 
     // ------------------------------------------
-    // SERVER ERROR
+    // READ OPENROUTER RESPONSE
     // ------------------------------------------
 
-    catch (error) {
+    const data = await response.json();
+
+    // ------------------------------------------
+    // OPENROUTER ERROR
+    // ------------------------------------------
+
+    if (!response.ok) {
 
         console.error(
-            "Rashi AI API Error:",
-            error
+            "OpenRouter Error:",
+            JSON.stringify(data, null, 2)
         );
 
-        return res.status(500).json({
-
+        return res.status(response.status).json({
             error:
-                "Unable to connect to Rashi AI."
-
+                data?.error?.message ||
+                "OpenRouter request failed."
         });
-
     }
 
+    // ------------------------------------------
+    // GET AI RESPONSE
+    // ------------------------------------------
+
+    const reply =
+        data?.choices?.[0]?.message?.content?.trim();
+
+    // ------------------------------------------
+    // EMPTY RESPONSE
+    // ------------------------------------------
+
+    if (!reply) {
+
+        console.error(
+            "No AI reply:",
+            JSON.stringify(data, null, 2)
+        );
+
+        return res.status(502).json({
+            error:
+                "AI provider returned no text response."
+        });
+    }
+
+    // ------------------------------------------
+    // SUCCESS
+    // ------------------------------------------
+
+    return res.status(200).json({
+        reply: reply
+    });
+
 }
+
+// ------------------------------------------
+// SERVER ERROR
+// ------------------------------------------
+
+catch (error) {
+
+    console.error(
+        "Rashi AI API Error:",
+        error
+    );
+
+    return res.status(500).json({
+        error:
+            "Unable to connect to Rashi AI."
+    });
+
+}}
