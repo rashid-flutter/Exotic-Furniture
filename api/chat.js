@@ -340,7 +340,7 @@ ${message.trim()}
                 },
 
         body: JSON.stringify({
-    model: "openrouter/free",
+    model: "inclusionai/ling-3.0-flash:free",
 
     messages: [
         {
