@@ -329,24 +329,30 @@ ${message.trim()}
                 "X-Title": "Rashi AI - Exotic Furniture Palakkad"
             },
 
-            body: JSON.stringify({
-                // Automatically choose an available FREE model
-                model: "openrouter/free",
+          body: JSON.stringify({
+    model: "openrouter/free",
 
-                messages: [
-                    {
-                        role: "system",
-                        content: systemPrompt
-                    },
-                    {
-                        role: "user",
-                        content: message.trim()
-                    }
-                ],
+    messages: [
+        {
+            role: "system",
+            content: systemPrompt
+        },
+        {
+            role: "user",
+            content: message.trim()
+        }
+    ],
 
-                temperature: 0.7,
-                max_tokens: 150
-            })
+    temperature: 0.7,
+
+    // Give enough room for a complete review
+    max_tokens: 250,
+
+    // Do not spend output budget on reasoning
+    reasoning: {
+        enabled: false
+    }
+})
         }
     );
 
@@ -354,58 +360,56 @@ ${message.trim()}
     // READ OPENROUTER RESPONSE
     // ------------------------------------------
 
-    const data = await response.json();
+   const data = await response.json();
 
-    // ------------------------------------------
-    // OPENROUTER ERROR
-    // ------------------------------------------
+if (!response.ok) {
 
-    if (!response.ok) {
+    console.error(
+        "OpenRouter Error:",
+        JSON.stringify(data, null, 2)
+    );
 
-        console.error(
-            "OpenRouter Error:",
-            JSON.stringify(data, null, 2)
-        );
-
-        return res.status(response.status).json({
-            error:
-                data?.error?.message ||
-                "OpenRouter request failed."
-        });
-    }
-
-    // ------------------------------------------
-    // GET AI RESPONSE
-    // ------------------------------------------
-
-    const reply =
-        data?.choices?.[0]?.message?.content?.trim();
-
-    // ------------------------------------------
-    // EMPTY RESPONSE
-    // ------------------------------------------
-
-    if (!reply) {
-
-        console.error(
-            "No AI reply:",
-            JSON.stringify(data, null, 2)
-        );
-
-        return res.status(502).json({
-            error:
-                "AI provider returned no text response."
-        });
-    }
-
-    // ------------------------------------------
-    // SUCCESS
-    // ------------------------------------------
-
-    return res.status(200).json({
-        reply: reply
+    return res.status(response.status).json({
+        error:
+            data?.error?.message ||
+            "OpenRouter request failed."
     });
+}
 
+const choice = data?.choices?.[0];
+
+const reply = choice?.message?.content?.trim();
+
+console.log("Finish reason:", choice?.finish_reason);
+
+if (!reply) {
+
+    console.error(
+        "No AI reply:",
+        JSON.stringify(data, null, 2)
+    );
+
+    return res.status(502).json({
+        error: "AI provider returned no text response."
+    });
+}
+
+// Detect incomplete generation
+if (choice?.finish_reason === "length") {
+
+    console.warn(
+        "AI response was truncated:",
+        reply
+    );
+
+    return res.status(502).json({
+        error: "AI response was incomplete. Please try again."
+    });
+}
+
+return res.status(200).json({
+    reply: reply
+});
 }
 
 // ------------------------------------------
