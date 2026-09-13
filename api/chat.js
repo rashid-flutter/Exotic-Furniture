@@ -339,32 +339,23 @@ ${message.trim()}
 
                 },
 
-                body: JSON.stringify({
+               body: JSON.stringify({
+    model: "openrouter/free",
 
-                    model:
-                        process.env.OPENROUTER_MODEL ||
-                        "openai/gpt-5.2",
+    messages: [
+        {
+            role: "system",
+            content: systemPrompt
+        },
+        {
+            role: "user",
+            content: message.trim()
+        }
+    ],
 
-                    messages: [
-
-                        {
-                            role: "system",
-                            content: systemPrompt
-                        },
-
-                        {
-                            role: "user",
-                            content: message.trim()
-                        }
-
-                    ],
-
-                    temperature: 0.7,
-
-                    max_tokens: 250
-
-                })
-
+    temperature: 0.7,
+    max_tokens: 150
+})
             }
         );
 
