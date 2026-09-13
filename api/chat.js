@@ -340,7 +340,7 @@ ${message.trim()}
                 },
 
                body: JSON.stringify({
-    model: "openrouter/free",
+   model: "google/gemma-4-26b-a4b:free",
 
     messages: [
         {
