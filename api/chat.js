@@ -339,8 +339,8 @@ ${message.trim()}
 
                 },
 
-               body: JSON.stringify({
-   model: "google/gemma-4-26b-a4b:free",
+             body: JSON.stringify({
+    model: "google/gemma-4-26b-a4b-it:free",
 
     messages: [
         {
@@ -354,7 +354,11 @@ ${message.trim()}
     ],
 
     temperature: 0.7,
-    max_tokens: 150
+    max_tokens: 120,
+
+    reasoning: {
+        enabled: false
+    }
 })
             }
         );
