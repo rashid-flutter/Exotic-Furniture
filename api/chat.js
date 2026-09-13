@@ -256,10 +256,7 @@ ${message.trim()}
     // Give enough room for a complete review
     max_tokens: 250,
 
-    // Do not spend output budget on reasoning
-    reasoning: {
-        enabled: false
-    }
+    
 })
         }
     );
