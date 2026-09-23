@@ -252,28 +252,30 @@ ${customerMessage}
                         "Rashi AI - Exotic Furniture Palakkad"
                 },
 
-                body: JSON.stringify({
+               body: JSON.stringify({
 
-                    // Free OpenRouter router
-                    model: "openrouter/free",
+    model: "openrouter/free",
 
-                    messages: [
-                        {
-                            role: "system",
-                            content: systemPrompt
-                        },
-                        {
-                            role: "user",
-                            content: customerMessage
-                        }
-                    ],
+    messages: [
+        {
+            role: "system",
+            content: systemPrompt
+        },
+        {
+            role: "user",
+            content: customerMessage
+        }
+    ],
 
-                    temperature: 0.7,
+    temperature: 0.7,
 
-                    // Enough room for a complete review
-                    max_tokens: 250
+    max_tokens: 500,
 
-                })
+    reasoning: {
+        enabled: false
+    }
+
+})
             }
         );
 
