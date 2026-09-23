@@ -32,9 +32,7 @@ export default async function handler(req, res) {
     // ------------------------------------------
 
     if (req.method === "OPTIONS") {
-
         return res.status(200).end();
-
     }
 
 
@@ -43,11 +41,9 @@ export default async function handler(req, res) {
     // ------------------------------------------
 
     if (req.method !== "POST") {
-
         return res.status(405).json({
             error: "Method not allowed"
         });
-
     }
 
 
@@ -68,7 +64,6 @@ export default async function handler(req, res) {
             error:
                 "OpenRouter API key is not configured on the server."
         });
-
     }
 
 
@@ -87,16 +82,14 @@ export default async function handler(req, res) {
         return res.status(400).json({
             error: "Please describe your experience."
         });
-
     }
 
 
     // ------------------------------------------
-    // RASHI AI SYSTEM PROMPT
-    // GOOGLE REVIEW GENERATOR ONLY
+    // SYSTEM PROMPT
     // ------------------------------------------
 
-  const systemPrompt = `
+    const systemPrompt = `
 You are Rashi AI, a Google Review Writing Assistant for Exotic Furniture Palakkad.
 
 Your task is to turn the customer's REAL experience into a natural, authentic Google review.
@@ -135,20 +128,21 @@ CORE RULES:
    - mixed stays mixed
    - neutral stays neutral
 
-8. If the customer mentions a specific product, naturally include that
-   product in the review.
+8. If the customer mentions a specific product,
+   naturally include that product in the review.
 
-9. If the customer mentions multiple products, naturally include only
-   the products they actually mentioned.
+9. If the customer mentions multiple products,
+   naturally include only the products they actually mentioned.
 
-10. Never add a product simply because it is commonly sold by a furniture shop.
+10. Never add a product simply because it is commonly sold
+    by a furniture shop.
 
-11. If the customer mentions a service such as delivery, staff assistance,
-    showroom experience or customer service, naturally reflect that
-    specific experience.
+11. If the customer mentions a service such as delivery,
+    staff assistance, showroom experience or customer service,
+    naturally reflect that specific experience.
 
-12. Do not assume the customer purchased something merely because they
-    mentioned a product.
+12. Do not assume the customer purchased something merely
+    because they mentioned a product.
 
 13. Do not turn a product name alone into a fake purchase experience.
 
@@ -184,7 +178,8 @@ NATURAL WRITING:
 
 22. Avoid exaggerated words such as:
     best, amazing, outstanding, premium, fantastic, perfect
-    unless the customer actually used or clearly expressed that sentiment.
+    unless the customer actually used or clearly expressed
+    that sentiment.
 
 23. Vary sentence structure naturally.
 
@@ -214,123 +209,232 @@ LENGTH:
 33. NEVER stop in the middle of a sentence.
 
 34. Return ONLY the final review text.
-
-CUSTOMER EXPERIENCE:
-
-${message.trim()}
 `;
+
+
     // ------------------------------------------
     // CALL OPENROUTER
     // ------------------------------------------
 
-   try {
+    try {
 
-    const response = await fetch(
-        "https://openrouter.ai/api/v1/chat/completions",
-        {
-            method: "POST",
+        console.log(
+            "Rashi AI request:",
+            message.trim()
+        );
 
-            headers: {
-                "Authorization": `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-                "HTTP-Referer": "https://exoticfurniture.vercel.app",
-                "X-Title": "Rashi AI - Exotic Furniture Palakkad"
-            },
 
-          body: JSON.stringify({
-    model: "openrouter/free",
+        const response = await fetch(
+            "https://openrouter.ai/api/v1/chat/completions",
+            {
+                method: "POST",
 
-    messages: [
-        {
-            role: "system",
-            content: systemPrompt
-        },
-        {
-            role: "user",
-            content: message.trim()
+                headers: {
+                    "Authorization": `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+
+                    "HTTP-Referer":
+                        "https://exoticfurniture.vercel.app",
+
+                    "X-Title":
+                        "Rashi AI - Exotic Furniture Palakkad"
+                },
+
+                body: JSON.stringify({
+
+                    model: "openrouter/free",
+
+                    messages: [
+
+                        // System instructions
+                        {
+                            role: "system",
+                            content: systemPrompt
+                        },
+
+                        // Customer message
+                        {
+                            role: "user",
+                            content: message.trim()
+                        }
+                    ],
+
+                    temperature: 0.7,
+
+                    max_tokens: 250
+                })
+            }
+        );
+
+
+        // ------------------------------------------
+        // READ OPENROUTER RESPONSE
+        // ------------------------------------------
+
+        const data = await response.json();
+
+
+        console.log(
+            "OpenRouter status:",
+            response.status
+        );
+
+
+        // ------------------------------------------
+        // OPENROUTER ERROR
+        // ------------------------------------------
+
+        if (!response.ok) {
+
+            console.error(
+                "OpenRouter Error:",
+                JSON.stringify(data, null, 2)
+            );
+
+            return res.status(502).json({
+                error:
+                    data?.error?.message ||
+                    "AI service is temporarily unavailable."
+            });
         }
-    ],
 
-    temperature: 0.7,
 
-    // Give enough room for a complete review
-    max_tokens: 250,
+        // ------------------------------------------
+        // GET FIRST CHOICE
+        // ------------------------------------------
 
-    
-})
+        const choice =
+            data?.choices?.[0];
+
+
+        if (!choice) {
+
+            console.error(
+                "No choice returned:",
+                JSON.stringify(data, null, 2)
+            );
+
+            return res.status(502).json({
+                error:
+                    "AI provider did not return a response."
+            });
         }
-    );
+
+
+        // ------------------------------------------
+        // FINISH REASON
+        // ------------------------------------------
+
+        console.log(
+            "Finish reason:",
+            choice?.finish_reason
+        );
+
+
+        // ------------------------------------------
+        // GET AI CONTENT
+        // ------------------------------------------
+
+        let reply =
+            choice?.message?.content;
+
+
+        // Some providers can return content
+        // in a non-string format.
+        if (Array.isArray(reply)) {
+
+            reply = reply
+                .map(item => {
+
+                    if (typeof item === "string") {
+                        return item;
+                    }
+
+                    return item?.text || "";
+                })
+                .join("");
+        }
+
+
+        // Make sure reply is a string
+        if (typeof reply !== "string") {
+            reply = "";
+        }
+
+
+        reply = reply.trim();
+
+
+        // ------------------------------------------
+        // NO TEXT RESPONSE
+        // ------------------------------------------
+
+        if (!reply) {
+
+            console.error(
+                "No AI reply:",
+                JSON.stringify(data, null, 2)
+            );
+
+
+            return res.status(502).json({
+                error:
+                    "AI provider returned no text response."
+            });
+        }
+
+
+        // ------------------------------------------
+        // INCOMPLETE RESPONSE
+        // ------------------------------------------
+
+        if (
+            choice?.finish_reason === "length"
+        ) {
+
+            console.warn(
+                "AI response was truncated:",
+                reply
+            );
+
+            return res.status(502).json({
+                error:
+                    "AI response was incomplete. Please try again."
+            });
+        }
+
+
+        // ------------------------------------------
+        // SUCCESS
+        // ------------------------------------------
+
+        console.log(
+            "Rashi AI reply:",
+            reply
+        );
+
+
+        return res.status(200).json({
+            reply: reply
+        });
+
+    }
+
 
     // ------------------------------------------
-    // READ OPENROUTER RESPONSE
+    // SERVER ERROR
     // ------------------------------------------
 
-   const data = await response.json();
+    catch (error) {
 
-if (!response.ok) {
+        console.error(
+            "Rashi AI API Error:",
+            error
+        );
 
-    console.error(
-        "OpenRouter Error:",
-        JSON.stringify(data, null, 2)
-    );
-
-    return res.status(response.status).json({
-        error:
-            data?.error?.message ||
-            "OpenRouter request failed."
-    });
+        return res.status(500).json({
+            error:
+                "Unable to connect to Rashi AI."
+        });
+    }
 }
-
-const choice = data?.choices?.[0];
-
-const reply = choice?.message?.content?.trim();
-
-console.log("Finish reason:", choice?.finish_reason);
-
-if (!reply) {
-
-    console.error(
-        "No AI reply:",
-        JSON.stringify(data, null, 2)
-    );
-
-    return res.status(502).json({
-        error: "AI provider returned no text response."
-    });
-}
-
-// Detect incomplete generation
-if (choice?.finish_reason === "length") {
-
-    console.warn(
-        "AI response was truncated:",
-        reply
-    );
-
-    return res.status(502).json({
-        error: "AI response was incomplete. Please try again."
-    });
-}
-
-return res.status(200).json({
-    reply: reply
-});
-}
-
-// ------------------------------------------
-// SERVER ERROR
-// ------------------------------------------
-
-catch (error) {
-
-    console.error(
-        "Rashi AI API Error:",
-        error
-    );
-
-    return res.status(500).json({
-        error:
-            "Unable to connect to Rashi AI."
-    });
-
-}}
