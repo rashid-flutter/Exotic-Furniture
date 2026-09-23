@@ -71,9 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const loadingMessage =
-            addAIMessage(
-                "Rashi AI is writing your review..."
-            );
+            addTypingIndicator();
 
 
         try {
@@ -236,6 +234,42 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollToBottom();
 
         return messageDiv;
+
+    }
+
+
+    // ==========================================
+    // TYPING INDICATOR
+    // ==========================================
+
+    function addTypingIndicator() {
+
+        const typingWrap =
+            document.createElement("div");
+
+        typingWrap.className =
+            "chat-message ai-message typing-indicator";
+
+        const dots =
+            document.createElement("div");
+
+        dots.className =
+            "typing-dots";
+
+        dots.innerHTML =
+            "<span></span><span></span><span></span>";
+
+        typingWrap.appendChild(
+            dots
+        );
+
+        chatMessages.appendChild(
+            typingWrap
+        );
+
+        scrollToBottom();
+
+        return typingWrap;
 
     }
 
